@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Lost Paradise | Guild HQ</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'lp-black': '#09090b',
+                        'lp-dark': '#18181b',
+                        'lp-blue': '#1E90FF',
+                        'lp-red': '#E71D36',
+                        'lp-gold': '#FFD700',
+                        'lp-gray': '#B0B0B0',
+                        'rank-gold': '#FFD700',
+                        'rank-silver': '#E5E7EB',
+                        'rank-bronze': '#CD7F32',
+                        'rank-purple': '#A855F7',
+                        'rank-pink': '#FF69B4',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        header: ['Oswald', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #09090b;
+            color: #ffffff;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(30, 144, 255, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 90% 90%, rgba(231, 29, 54, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .bg-grid-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1E90FF; }
+
+        /* Animations */
+        .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* UI Elements */
+        .btn-premium {
+            background: linear-gradient(135deg, #1E90FF 0%, #104E8B 100%);
+            border: 1px solid #46A3FF;
+            box-shadow: 0 0 15px rgba(30, 144, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .btn-premium:active { transform: scale(0.98); }
+        .btn-premium::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+            transform: rotate(45deg); transition: all 0.3s;
+        }
+
+        /* SPA Pages */
+        .page-section { 
+            display: none; animation: fadeIn 0.5s ease; 
+            /* УВЕЛИЧЕНО: отступ сверху 140px, чтобы шапка не перекрывала контент */
+            padding-top: 140px; 
+            padding-bottom: 60px; min-height: 100vh; 
+        }
+        .page-section.active { display: block; }
+        #page-home { padding-top: 0; padding-bottom: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Coverflow Elite Cards */
+        .coverflow-scene { perspective: 1000px; height: 380px; width: 100%; display: flex; justify-content: center; align-items: center; overflow: visible; }
+        .coverflow-list { display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; position: relative; transform-style: preserve-3d; }
+        
+        .player-card {
+            position: absolute; left: 50%; top: 50%; margin-left: -110px; margin-top: -160px;
+            width: 220px; height: 320px; border-radius: 12px;
+            background: linear-gradient(160deg, #1a1a1a 0%, #0d0d0d 60%, #1a1a1a 100%);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; overflow: hidden;
+            display: flex; flex-direction: column; box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+        }
+        .player-card img.avatar { width: 100%; height: 75%; object-fit: cover; }
+
+        @media (max-width: 768px) {
+            .coverflow-scene { height: 320px; }
+            .player-card { width: 160px; height: 260px; margin-left: -80px; margin-top: -130px; }
+        }
+
+        /* Wheel */
+        .wheel-container { position: relative; margin: 0 auto; border-radius: 50%; aspect-ratio: 1 / 1; }
+        .wheel { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #FFD700; position: relative; transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); overflow: hidden; }
+        .wheel-segment-content {
+            position: absolute; top: 50%; left: 50%; width: 50%; height: 20px; 
+            transform-origin: 0 50%; display: flex; align-items: center; justify-content: flex-end;
+            padding-right: 15px; box-sizing: border-box; text-align: right;
+            font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap;
+        }
+        .wheel-decorative { animation: slow-spin 20s linear infinite; }
+        @keyframes slow-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* СТРЕЛКА СНИЗУ, ОСТРИЕ ВНУТРЬ (ВВЕРХ) */
+        .wheel-arrow { 
+            position: absolute; 
+            bottom: -22px; /* Снизу колеса */
+            left: 50%; 
+            transform: translateX(-50%); /* Центрирование по горизонтали */
+            top: auto; right: auto; 
+            width: 0; height: 0; 
+            border-left: 15px solid transparent; 
+            border-right: 15px solid transparent; 
+            border-bottom: 25px solid #FFD700; /* Цветная часть снизу, указывает вверх */
+            border-top: 0;
+            z-index: 10; 
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); 
+        }
+
+        /* Accordion */
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .accordion-active .accordion-content { max-height: 200px; }
+        .accordion-active .accordion-icon { transform: rotate(180deg); }
+        
+        /* Tables for Modes */
+        .mode-table th { background: rgba(255,255,255,0.05); padding: 8px; color: #fff; text-transform: uppercase; font-size: 12px; }
+        .mode-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        .mode-table tr:last-child td { border-bottom: none; }
+
+        /* Hover animations */
+        .hover-shake:hover i { animation: fa-shake 1s; }
+        .hover-bounce:hover i { animation: fa-bounce 1s; }
+        .hover-beat:hover i { animation: fa-beat 1s; }
+        .hover-flip:hover i { animation: fa-flip 1s; }
+    </style>
+</head>
+<body class="font-sans text-gray-300">
+
+    <div class="bg-grid-pattern"></div>
+
+    <!-- Navigation -->
+    <header class="fixed top-0 w-full z-40 bg-black/90 backdrop-blur-lg border-b border-white/5" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="router.navigate('home')">
+                <div class="w-10 h-10 bg-gradient-to-br from-lp-blue to-black flex items-center justify-center border border-lp-blue clip-corner shrink-0">
+                    <i class="fa-solid fa-dragon text-white"></i>
+                </div>
+                <h1 class="font-header text-xl md:text-2xl tracking-wider text-white uppercase font-bold truncate">Lost <span class="text-lp-blue">Paradise</span></h1>
+            </div>
+            <button id="menu-btn" class="text-white hover:text-lp-blue transition-colors text-2xl focus:outline-none p-2"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="side-menu" class="fixed inset-0 z-[60] bg-black/95 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-start pl-8 md:pl-12 gap-8 backdrop-blur-xl">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-white text-4xl hover:text-lp-blue transition-colors p-2"><i class="fa-solid fa-times"></i></button>
+        <nav class="flex flex-col text-left gap-5 font-header uppercase tracking-widest font-bold overflow-y-auto max-h-[85vh] pr-4 w-full">
+            <a href="#" onclick="router.navigate('home'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Главная</a>
+            <a href="#" onclick="router.navigate('home', 'join-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Вступить</a>
+            <a href="#" onclick="router.navigate('home', 'about-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">О нас</a>
+            <a href="#" onclick="router.navigate('home', 'elite-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Игроки</a>
+            <div class="flex flex-col gap-1">
+                <a href="#" onclick="router.navigate('home', 'modes-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Режимы</a>
+                <div class="flex flex-col pl-6 gap-2 border-l-2 border-white/20 ml-2">
+                    <a href="#" onclick="router.navigate('mode-kv'); closeMenu()" class="text-lg text-white hover:text-lp-gold transition-colors">КВ</a>
+                    <a href="#" onclick="router.navigate('mode-zaruba'); closeMenu()" class="text-lg text-white hover:text-lp-gold transition-colors">Заруба</a>
+                    <a href="#" onclick="router.navigate('mode-proverka'); closeMenu()" class="text-lg text-white hover:text-lp-gold transition-colors">Проверка</a>
+                </div>
+            </div>
+            <a href="#" onclick="router.navigate('fortune'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Фортуна</a>
+            <a href="#" onclick="router.navigate('home', 'faq-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Вопросы</a>
+            <a href="#" onclick="router.navigate('home', 'contact-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Связь</a>
+        </nav>
+    </div>
+
+    <main class="min-h-screen">
+        
+        <!-- PAGE: HOME -->
+        <div id="page-home" class="page-section active pt-0 pb-0">
+            <!-- Hero Section -->
+            <section class="relative min-h-[90vh] pt-32 pb-20 flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 z-0">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Background" class="w-full h-full object-cover opacity-20">
+                    <div class="absolute inset-0 bg-gradient-to-b from-lp-black/90 via-lp-black/50 to-lp-black/90"></div>
+                </div>
+
+                <div class="container mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center md:text-left fade-in-up">
+                        <div class="inline-block px-3 py-1 mb-4 border border-lp-blue/50 text-lp-blue text-xs font-bold tracking-[0.2em] uppercase bg-lp-blue/10 clip-corner">Official Guild</div>
+                        <h1 class="font-header text-3xl sm:text-5xl md:text-7xl font-bold uppercase leading-tight mb-4">
+                            Welcome to <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Lost Paradise</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-lp-gray font-light mb-6 tracking-wide italic border-l-4 border-lp-blue pl-4">
+                            Победа всегда имеет прайс.
+                        </p>
+                        <p class="mb-8 text-gray-400 max-w-lg mx-auto md:mx-0 text-sm md:text-base leading-relaxed">
+                            «Ты больше никогда не будешь ходить. Но ты будешь летать» — это принцип нашей гильдии. Мы не действуем наугад и не идём, как все. Мы поднимаемся выше, чтобы видеть ситуацию целиком, принимать решения заранее и вступать в бой только тогда, когда исход уже понятен. Наше преимущество — взгляд сверху, расчёт и контроль.
+                        </p>
+                    </div>
+
+                    <!-- Join Form -->
+                    <div id="join-section" class="bg-black/40 backdrop-blur-md border border-white/10 p-6 md:p-8 clip-corner fade-in-up" style="animation-delay: 0.2s;">
+                        <h3 class="font-header text-2xl text-white uppercase mb-6 flex items-center justify-center gap-2"><i class="fa-solid fa-file-signature text-lp-blue"></i> Вступление</h3>
+                        <form id="join-form" class="space-y-4">
+                            <input type="text" id="name" placeholder="Твое имя" class="w-full bg-black/60 border border-gray-700 text-white p-3 text-base focus:border-lp-blue focus:outline-none clip-corner placeholder-gray-600" required>
+                            <div class="grid grid-cols-2 gap-4">
+                                <input type="number" id="age" placeholder="Возраст" class="w-full bg-black/60 border border-gray-700 text-white p-3 text-base focus:border-lp-blue focus:outline-none clip-corner placeholder-gray-600" required>
+                                <input type="text" id="phone" placeholder="Номер (WP)" class="w-full bg-black/60 border border-gray-700 text-white p-3 text-base focus:border-lp-blue focus:outline-none clip-corner placeholder-gray-600" required>
+                            </div>
+                            <button type="submit" class="btn-premium w-full text-white font-header font-bold uppercase tracking-wider py-4 mt-4 clip-corner touch-manipulation">Подать заявку</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Guild (Animated Icons) -->
+            <section id="about-section" class="py-20 border-y border-white/5 relative bg-black/20 backdrop-blur-sm">
+                <div class="container mx-auto px-6 relative z-10">
+                    <div class="text-center mb-16 fade-in-up">
+                        <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Почему Lost Paradise?</h2>
+                        <div class="h-1 w-24 bg-lp-blue mx-auto mt-4"></div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-8">
+                        <div class="p-4 md:p-6 border border-white/5 bg-black/40 clip-corner fade-in-up hover-shake transition-colors hover:border-lp-blue/50">
+                            <i class="fa-solid fa-users text-3xl md:text-4xl text-lp-blue mb-3 md:mb-4"></i>
+                            <h3 class="font-header text-lg md:text-xl uppercase mb-2 leading-tight">Сильный Состав</h3>
+                            <p class="text-xs md:text-base text-gray-400">Только проверенные игроки с высоким K/D.</p>
+                        </div>
+                        <div class="p-4 md:p-6 border border-white/5 bg-black/40 clip-corner fade-in-up hover-flip transition-colors hover:border-lp-blue/50" style="animation-delay: 0.1s">
+                            <i class="fa-solid fa-scale-balanced text-3xl md:text-4xl text-lp-blue mb-3 md:mb-4"></i>
+                            <h3 class="font-header text-lg md:text-xl uppercase mb-2 leading-tight">Честная Игра</h3>
+                            <p class="text-xs md:text-base text-gray-400">Строгий кодекс чести. Никаких читов.</p>
+                        </div>
+                        <div class="p-4 md:p-6 border border-white/5 bg-black/40 clip-corner fade-in-up hover-bounce transition-colors hover:border-lp-blue/50" style="animation-delay: 0.2s">
+                            <i class="fa-solid fa-trophy text-3xl md:text-4xl text-lp-blue mb-3 md:mb-4"></i>
+                            <h3 class="font-header text-lg md:text-xl uppercase mb-2 leading-tight">Регулярные КВ</h3>
+                            <p class="text-xs md:text-base text-gray-400">Ежедневные активности и турниры.</p>
+                        </div>
+                        <div class="p-4 md:p-6 border border-white/5 bg-black/40 clip-corner fade-in-up hover-beat transition-colors hover:border-lp-blue/50" style="animation-delay: 0.3s">
+                            <i class="fa-solid fa-handshake text-3xl md:text-4xl text-lp-blue mb-3 md:mb-4"></i>
+                            <h3 class="font-header text-lg md:text-xl uppercase mb-2 leading-tight">Поддержка</h3>
+                            <p class="text-xs md:text-base text-gray-400">Помогаем новичкам расти.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Top Players (COVERFLOW CAROUSEL) -->
+             <section id="elite-section" class="py-20 bg-transparent">
+                <div class="container mx-auto px-6 relative">
+                    <div class="text-center mb-12 fade-in-up">
+                        <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Элита Гильдии</h2>
+                        <div class="h-1 w-24 bg-lp-blue mx-auto mt-4"></div>
+                    </div>
+
+                    <!-- Coverflow Container -->
+                    <div class="coverflow-scene fade-in-up">
+                        <div class="coverflow-list" id="coverflow-list">
+                            <!-- Cards will be injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="mt-12 flex justify-center fade-in-up">
+                        <button onclick="router.navigate('players')" class="text-lp-blue hover:text-white transition-colors uppercase font-header font-bold tracking-widest text-lg md:text-xl flex items-center gap-3 p-4 border border-white/5 hover:border-lp-blue bg-black/40 backdrop-blur clip-corner">
+                            Показать всех игроков <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modes Section -->
+            <section id="modes-section" class="py-20 container mx-auto px-6">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Игровые Режимы</h2>
+                    <div class="h-1 w-24 bg-lp-blue mt-4 mx-auto"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3 md:gap-6">
+                    <div onclick="router.navigate('mode-kv')" class="group relative h-48 md:h-64 border border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden cursor-pointer fade-in-up clip-corner">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" alt="KV" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40">
+                        <div class="absolute bottom-0 left-0 p-4 md:p-6 z-10">
+                            <h3 class="font-header text-xl md:text-3xl font-bold text-white uppercase mb-1 md:mb-2 group-hover:text-lp-blue transition-colors leading-none">КВ</h3>
+                            <p class="text-xs md:text-sm text-gray-400">Рейтинг</p>
+                        </div>
+                        <div class="absolute top-3 right-3 md:top-4 md:right-4 text-white/20 group-hover:text-lp-blue transition-colors"><i class="fa-solid fa-shield-halved text-2xl md:text-4xl"></i></div>
+                    </div>
+                    <div onclick="router.navigate('mode-zaruba')" class="group relative h-48 md:h-64 border border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden cursor-pointer fade-in-up clip-corner" style="animation-delay: 0.1s;">
+                        <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=800&q=80" alt="Zaruba" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40">
+                        <div class="absolute bottom-0 left-0 p-4 md:p-6 z-10">
+                            <h3 class="font-header text-xl md:text-3xl font-bold text-white uppercase mb-1 md:mb-2 group-hover:text-lp-red transition-colors leading-none">Заруба</h3>
+                            <p class="text-xs md:text-sm text-gray-400">4x4</p>
+                        </div>
+                        <div class="absolute top-3 right-3 md:top-4 md:right-4 text-white/20 group-hover:text-lp-red transition-colors"><i class="fa-solid fa-skull text-2xl md:text-4xl"></i></div>
+                    </div>
+                    <div onclick="router.navigate('mode-proverka')" class="col-span-2 group relative h-48 md:h-64 border border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden cursor-pointer fade-in-up clip-corner" style="animation-delay: 0.2s;">
+                        <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=1200&q=80" alt="Proverka" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60 group-hover:opacity-40">
+                        <div class="absolute bottom-0 left-0 p-4 md:p-6 z-10">
+                            <h3 class="font-header text-xl md:text-3xl font-bold text-white uppercase mb-1 md:mb-2 group-hover:text-lp-gold transition-colors">Проверка</h3>
+                            <p class="text-xs md:text-sm text-gray-400">Испытание 1 на 1.</p>
+                        </div>
+                        <div class="absolute top-3 right-3 md:top-4 md:right-4 text-white/20 group-hover:text-lp-gold transition-colors"><i class="fa-solid fa-crosshairs text-2xl md:text-4xl"></i></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- WHEEL PROMO (Correct Order) -->
+            <section id="wheel-promo-section" class="py-20 container mx-auto px-6 overflow-hidden">
+                <div class="bg-black/30 backdrop-blur-md border border-lp-gold/30 p-8 clip-corner relative">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="fade-in-up relative z-10 text-center md:text-left order-2 md:order-1">
+                            <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white mb-4">
+                                Колесо <span class="text-lp-gold">Фортуны</span>
+                            </h2>
+                            <p class="text-gray-400 mb-6 max-w-md mx-auto md:mx-0">
+                                В колесе — не просто награды, а реальные гильдейские преимущества:
+алмазы, ваучеры, проверки, ускоренный доступ и участие в совместных играх. 
+                            </p>
+                            <button onclick="router.navigate('fortune')" class="btn-premium px-8 py-3 text-white font-header uppercase font-bold clip-corner w-full md:w-auto touch-manipulation border-lp-gold text-lp-gold hover:text-white hover:border-white">
+                                Перейти к Колесу <i class="fa-solid fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                        <div class="flex justify-center md:justify-end fade-in-up opacity-60 md:opacity-100 order-1 md:order-2">
+                            <div class="wheel-container" style="width: 150px; height: 150px;">
+                                <div class="wheel wheel-decorative" id="decorative-wheel-bg"></div>
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-lp-gold rounded-full border-2 border-black z-20 flex items-center justify-center">
+                                    <i class="fa-solid fa-dragon text-black text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section id="faq-section" class="py-20 container mx-auto px-6 max-w-4xl">
+                <div class="text-center mb-12 fade-in-up">
+                    <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Частые Вопросы</h2>
+                    <div class="h-1 w-24 bg-lp-blue mx-auto mt-4"></div>
+                </div>
+                <div class="space-y-4 fade-in-up">
+                    <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Что такое гильдия?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Гильдия — это объединение игроков для совместной игры, развития и достижения общих целей.</div></div>
+                    </div>
+                    <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Как вступить в гильдию?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Для вступления необходимо подать заявку и дождаться решения руководства.</div></div>
+                    </div>
+                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Есть ли требования для вступления?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да, требования могут включать активность, уровень персонажа и соблюдение правил гильдии.</div></div>
+                    </div>
+                    <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Обязателен ли голосовой чат?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Использование голосового чата желательно для координации, но не всегда обязательно.</div></div>
+                    </div>
+                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Есть ли правила внутри гильдии?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да, в гильдии действует внутренний устав, обязательный для всех участников.</div></div>
+                    </div>
+                    <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Можно ли покинуть гильдию?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Игрок может покинуть гильдию в любой момент, предупредив руководство.</div></div>
+                    </div>
+                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Какую пользу даёт гильдия?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Гильдия даёт поддержку, командную игру, помощь в развитии и участие в совместных активностях.</div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact-section" class="py-10 md:py-20 border-t border-white/5 bg-transparent relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-t from-lp-blue/5 to-transparent pointer-events-none"></div>
+                <div class="container mx-auto px-6 relative z-10">
+                    <div class="text-center mb-8 md:mb-12 fade-in-up">
+                        <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Контакты</h2>
+                        <div class="h-1 w-24 bg-lp-blue mx-auto mt-4"></div>
+                    </div>
+                    <!-- ИСПРАВЛЕНО: grid-cols-3 даже на мобильных (в одну строку) -->
+                    <div class="grid grid-cols-3 gap-2 md:gap-6 max-w-5xl mx-auto">
+                        
+                        <!-- WhatsApp Card -->
+                        <a href="https://wa.me/77073473349" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-[#25D366] transition-all duration-300 hover:-translate-y-2 fade-in-up">
+                            <!-- Уменьшенные иконки для мобильных -->
+                            <div class="w-10 h-10 md:w-16 md:h-16 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] text-xl md:text-3xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-[#25D366] group-hover:text-white shadow-[0_0_20px_rgba(37,211,102,0.1)] group-hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="font-header text-[10px] md:text-xl uppercase text-white mb-0 md:mb-1 group-hover:text-[#25D366] transition-colors">WhatsApp</h3>
+                                <p class="text-gray-500 text-[8px] md:text-sm group-hover:text-gray-400 leading-tight">Админ</p>
+                            </div>
+                        </a>
+
+                        <!-- TikTok Card -->
+                        <a href="https://www.tiktok.com/@ls.ps79" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-white transition-all duration-300 hover:-translate-y-2 fade-in-up" style="animation-delay: 0.1s;">
+                            <div class="w-10 h-10 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center text-white text-xl md:text-3xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-white group-hover:text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="font-header text-[10px] md:text-xl uppercase text-white mb-0 md:mb-1 group-hover:text-white transition-colors">TikTok</h3>
+                                <p class="text-gray-500 text-[8px] md:text-sm group-hover:text-gray-400 leading-tight">Хайлайты</p>
+                            </div>
+                        </a>
+
+                        <!-- Telegram Card -->
+                        <a href="https://t.me/telegram" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-[#0088cc] transition-all duration-300 hover:-translate-y-2 fade-in-up" style="animation-delay: 0.2s;">
+                            <div class="w-10 h-10 md:w-16 md:h-16 rounded-full bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc] text-xl md:text-3xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-[#0088cc] group-hover:text-white shadow-[0_0_20px_rgba(0,136,204,0.1)] group-hover:shadow-[0_0_20px_rgba(0,136,204,0.4)]">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <div class="text-center">
+                                <h3 class="font-header text-[10px] md:text-xl uppercase text-white mb-0 md:mb-1 group-hover:text-[#0088cc] transition-colors">Telegram</h3>
+                                <p class="text-gray-500 text-[8px] md:text-sm group-hover:text-gray-400 leading-tight">Новости</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE: MODE KV -->
+        <div id="page-mode-kv" class="page-section container mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="flex items-center gap-4">
+                    <!-- UPDATED BACK BUTTON FOR KV -->
+                    <button onclick="router.navigate('home', 'modes-section')" class="text-gray-400 hover:text-white transition-colors px-4 py-2 flex items-center gap-2 border border-white/10 hover:border-lp-blue hover:bg-lp-blue/10 clip-corner bg-black/40">
+                        <i class="fa-solid fa-arrow-left"></i> Назад
+                    </button>
+                    <div class="border-l border-white/10 pl-4">
+                        <h1 class="font-header text-2xl md:text-4xl uppercase text-white leading-none">Клановые Войны</h1>
+                        <p class="text-lp-blue text-xs md:text-sm uppercase font-bold tracking-widest">Competitive</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400 text-sm"><i class="fa-solid fa-users"></i> 4 vs 4</div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-6">
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-blue pl-3">Настройки Комнаты</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left mode-table">
+                                <tr><th>Раунд</th><td>13 (Цель: 7)</td></tr>
+                                <tr><th>Монета</th><td>9950 или бесплатно</td></tr>
+                                <tr><th>Оружие</th><td>Desert Eagle, UMP, M1887</td></tr>
+                                <tr><th>Запрещено</th><td>Гранаты, Мины, Авиапосылки</td></tr>
+                                <tr><th>Разрешено</th><td>Крыша (2-3 этаж), Контейнеры</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-blue pl-3">Заявка на вызов</h3>
+                        <form onsubmit="submitChallenge(event, 'КВ')" class="space-y-3">
+                            <input type="text" name="guildName" placeholder="Название гильдии" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                            <input type="text" name="guildId" placeholder="ID гильдии" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                             <input type="text" name="guildLevel" placeholder="Уровень гильдии" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                            <input type="text" name="wpNumber" placeholder="Номер WP" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                            <button type="submit" class="w-full py-2 bg-lp-blue text-white font-bold clip-corner uppercase">Отправить</button>
+                        </form>
+                    </div>
+
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-blue pl-3">Реванш (3333 тг)</h3>
+                        <form onsubmit="submitRevanche(event, 'КВ')" class="space-y-3">
+                             <p class="text-xs text-gray-400">Прикрепите скриншот чека в WhatsApp после нажатия кнопки.</p>
+                            <button type="submit" class="w-full py-2 bg-green-600 text-white font-bold clip-corner uppercase">Запросить реванш</button>
+                        </form>
+                    </div>
+
+                </div>
+                 <div class="space-y-6">
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
+                         <p class="text-sm text-gray-400">Desert Eagle, UMP, M1887 (Официальный пул)</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Разрешено</h3>
+                         <p class="text-sm text-gray-400">Крыши (2-3 этаж), Контейнеры, Навыки персонажей (Активные)</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Запрещено</h3>
+                         <p class="text-sm text-gray-400">Гранаты, Мины, M79, MGL140, Vector Akimbo, Эмуляторы, Читы, софт, панели, редегик, усик, игрок не из гильдии.</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Условия</h3>
+                         <p class="text-sm text-gray-400">Если комната открылась неправильно — ТП. 10 минут задержка — ТП.</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
+                         <p class="text-sm text-gray-400">Активные (Алок). Пассивные (Моко, Келли, Королина, Найр, Луна). Остальные — ТП.</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Порядок проведения</h3>
+                         <p class="text-sm text-gray-400">1 комната — создает тот, кто предложил<br>2 комната — создает тот, кто принял<br>3 комната — победитель 1 комнаты.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: MODE ZARUBA -->
+        <div id="page-mode-zaruba" class="page-section container mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="flex items-center gap-4">
+                    <!-- UPDATED BACK BUTTON FOR ZARUBA -->
+                    <button onclick="router.navigate('home', 'modes-section')" class="text-gray-400 hover:text-white transition-colors px-4 py-2 flex items-center gap-2 border border-white/10 hover:border-lp-red hover:bg-lp-red/10 clip-corner bg-black/40">
+                        <i class="fa-solid fa-arrow-left"></i> Назад
+                    </button>
+                    <div class="border-l border-white/10 pl-4">
+                        <h1 class="font-header text-2xl md:text-4xl uppercase text-white leading-none">Заруба</h1>
+                        <p class="text-lp-red text-xs md:text-sm uppercase font-bold tracking-widest">Hardcore</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400 text-sm"><i class="fa-solid fa-users"></i> 4 vs 4 / 6 vs 6</div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-6">
+                   <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Настройки Комнаты</h3>
+                         <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left mode-table">
+                                <tr><th>Раунд</th><td>7 (Цель: 4)</td></tr>
+                                <tr><th>Монета</th><td>9950 или бесплатно</td></tr>
+                                <tr><th>Оружие</th><td>Desert Eagle, M1887</td></tr>
+                                <tr><th>Формат</th><td>2 хэд / 2 тело</td></tr>
+                                <tr><th>Запрещено</th><td>Стрельба с двух патронов</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Заявка на вызов</h3>
+                        <form onsubmit="submitChallenge(event, 'Заруба')" class="space-y-3">
+                             <input type="text" name="entryName" placeholder="Название гильдии/команды" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                             <!-- Reuse similar fields or adapt slightly for Zaruba -->
+                            <input type="text" name="wpNumber" placeholder="Номер WP" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                            <button type="submit" class="w-full py-2 bg-lp-red text-white font-bold clip-corner uppercase">Отправить</button>
+                        </form>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Реванш (3333 тг)</h3>
+                        <form onsubmit="submitRevanche(event, 'Заруба')" class="space-y-3">
+                             <p class="text-xs text-gray-400">Прикрепите скриншот чека в WhatsApp после нажатия кнопки.</p>
+                            <button type="submit" class="w-full py-2 bg-green-600 text-white font-bold clip-corner uppercase">Запросить реванш</button>
+                        </form>
+                    </div>
+                </div>
+                 <div class="space-y-6">
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
+                         <p class="text-sm text-gray-400">M1887, Desert Eagle, Woodpecker, UMP</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                         <h3 class="font-header text-xl uppercase text-white mb-3">Разрешено</h3>
+                         <p class="text-sm text-gray-400">Добивание, Эмоции, Аптечки/Грибы</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                         <h3 class="font-header text-xl uppercase text-white mb-3">Запрещено</h3>
+                         <p class="text-sm text-gray-400">MAG-7, Пассив, Тимминг, Игра без стенок, Закрытие в стенке, Закрытие за зоной, Читы/Софт.</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                         <h3 class="font-header text-xl uppercase text-white mb-3">Условия</h3>
+                         <p class="text-sm text-gray-400">Неправильная комната = Пересоздание (только 1 раз). >10 минут = ТП.</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                         <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
+                         <p class="text-sm text-gray-400">Активные (Алок). Пассивные (Моко, Келли, Королина, Максим, Леон). Остальные — ТП.</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                         <h3 class="font-header text-xl uppercase text-white mb-3">Порядок проведения</h3>
+                         <p class="text-sm text-gray-400">По договоренности (до 10 или 15 побед).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: MODE PROVERKA -->
+        <div id="page-mode-proverka" class="page-section container mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="flex items-center gap-4">
+                    <!-- UPDATED BACK BUTTON FOR PROVERKA -->
+                    <button onclick="router.navigate('home', 'modes-section')" class="text-gray-400 hover:text-white transition-colors px-4 py-2 flex items-center gap-2 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 clip-corner bg-black/40">
+                        <i class="fa-solid fa-arrow-left"></i> Назад
+                    </button>
+                    <div class="border-l border-white/10 pl-4">
+                        <h1 class="font-header text-2xl md:text-4xl uppercase text-white leading-none">Проверка (СНС)</h1>
+                        <p class="text-lp-gold text-xs md:text-sm uppercase font-bold tracking-widest">Recruitment</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400 text-sm"><i class="fa-solid fa-user"></i> 1 vs 1</div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                 <div class="space-y-6">
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Настройки Комнаты</h3>
+                         <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left mode-table">
+                                <tr><th>Карта</th><td>Одинокий Волк</td></tr>
+                                <tr><th>Пароль</th><td>Любой</td></tr>
+                                <tr><th>Раунды</th><td>11 или 13</td></tr>
+                                <tr><th>HP</th><td>200 или 500</td></tr>
+                                <tr><th>Лимит патронов</th><td>НЕТ</td></tr>
+                                <tr><th>Характеристики</th><td>НЕТ</td></tr>
+                                <tr><th>Навыки</th><td>НЕТ</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Заявка на проверку</h3>
+                        <form onsubmit="submitChallenge(event, 'Проверка')" class="space-y-3">
+                             <input type="text" name="entryName" placeholder="Ваш Ник" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                             <input type="text" name="entryId" placeholder="Ваш ID" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                            <input type="text" name="wpNumber" placeholder="Номер WP" class="w-full bg-black/60 border border-gray-700 text-white p-2 clip-corner" required>
+                            <button type="submit" class="w-full py-2 bg-lp-gold text-black font-bold clip-corner uppercase">Отправить</button>
+                        </form>
+                    </div>
+
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Реванш (3333 тг)</h3>
+                        <form onsubmit="submitRevanche(event, 'Проверка')" class="space-y-3">
+                             <p class="text-xs text-gray-400">Прикрепите скриншот чека в WhatsApp после нажатия кнопки.</p>
+                            <button type="submit" class="w-full py-2 bg-green-600 text-white font-bold clip-corner uppercase">Запросить реванш</button>
+                        </form>
+                    </div>
+                </div>
+                 <div class="space-y-6">
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
+                         <p class="text-sm text-gray-400">1 раунд Desert Eagle. Далее: UMP, M1887, Woodpecker</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Разрешено</h3>
+                         <p class="text-sm text-gray-400">Оттяжка, Стенки.</p>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Запрещено</h3>
+                         <p class="text-sm text-gray-400">Зажим, Крыша, Кулак, Активные навыки, Skyler/Wukong/Orion/Sonia/Tatsuya.</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Условия</h3>
+                         <p class="text-sm text-gray-400">Критерий успеха: Победа или Достойная игра</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
+                         <p class="text-sm text-gray-400">Навыки выключены.</p>
+                    </div>
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                        <h3 class="font-header text-xl uppercase text-white mb-3">Порядок проведения</h3>
+                         <p class="text-sm text-gray-400">Карту создает кандидат.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: PLAYERS -->
+        <div id="page-players" class="page-section container mx-auto px-6">
+            <div class="flex items-center gap-4 mb-8">
+                <button onclick="router.navigate('home', 'elite-section')" class="text-gray-400 hover:text-white transition-colors p-2"><i class="fa-solid fa-arrow-left"></i> Назад</button>
+                <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Все Игроки</h2>
+            </div>
+            <div class="overflow-x-auto bg-black/40 backdrop-blur-sm clip-corner border border-white/5">
+                <table class="w-full text-left min-w-[300px]"> <!-- Reduced min-width for mobile -->
+                    <thead class="bg-white/5 text-lp-blue font-header uppercase text-xs md:text-sm">
+                        <tr><th class="p-2 md:p-4">#</th><th class="p-2 md:p-4">Никнейм</th><th class="p-2 md:p-4">ID</th><th class="p-2 md:p-4">Роль</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5 text-gray-300 font-sans text-xs md:text-sm" id="players-list-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PAGE: FORTUNE -->
+        <!-- ИСПРАВЛЕНО: Убран класс 'pt-6', теперь отступ берется из .page-section (140px) -->
+        <div id="page-fortune" class="page-section container mx-auto px-6 pb-20">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
+                <div class="flex items-center gap-4">
+                    <!-- UPDATED BACK BUTTON: GO TO HOME FORTUNE BLOCK -->
+                    <button onclick="router.navigate('home', 'wheel-promo-section')" class="text-gray-400 hover:text-white transition-colors px-4 py-2 flex items-center gap-2 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 clip-corner bg-black/40">
+                        <i class="fa-solid fa-arrow-left"></i> Назад
+                    </button>
+                    <div>
+                        <h1 class="font-header text-3xl md:text-4xl uppercase text-white leading-none">Колесо Фортуны</h1>
+                        <p class="text-lp-gold text-sm uppercase font-bold tracking-widest">Exclusive Event</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 text-gray-400 text-sm">
+                    <i class="fa-solid fa-star text-lp-gold"></i> ID: #LP-2026
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-start">
+                <div class="order-2 lg:order-1 flex flex-col items-center">
+                    <div class="relative w-full max-w-[400px] mb-8">
+                        <div class="wheel-arrow"></div>
+                        <div class="wheel-container w-full"><div class="wheel" id="fortune-wheel"></div></div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-lp-gold rounded-full border-4 border-black shadow-lg z-20 flex items-center justify-center">
+                            <!-- Guild Logo -->
+                            <i class="fa-solid fa-dragon text-black text-3xl"></i>
+                        </div>
+                    </div>
+                    <div id="fortune-controls" class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                        <div id="fortune-form-container">
+                            <h3 class="font-header text-xl text-white uppercase mb-4 text-center">Данные участника</h3>
+                            <form id="fortune-form" class="space-y-4">
+                                <input type="text" id="ff-nick" required placeholder="Ник в игре" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
+                                <input type="text" id="ff-id" required placeholder="ID Free Fire" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
+                                <div class="relative">
+                                    <input type="text" id="access-code" required placeholder="Код доступа" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner pl-10">
+                                    <i class="fa-solid fa-key absolute left-3 top-4 text-gray-500"></i>
+                                </div>
+                                <button type="submit" id="real-spin-btn" class="btn-premium w-full text-white font-header font-bold uppercase py-4 clip-corner border-lp-gold text-lp-gold hover:text-white">ИСПЫТАТЬ УДАЧУ</button>
+                                <p class="text-xs text-gray-500 text-center mt-2"><i class="fa-solid fa-triangle-exclamation text-lp-red"></i> 1 прокрутка на устройство</p>
+                            </form>
+                        </div>
+                        <div id="fortune-result" class="hidden text-center">
+                            <h3 class="font-header text-2xl text-lp-gold uppercase mb-2">Поздравляем!</h3>
+                            <p class="text-gray-400 mb-4">Твой выигрыш:</p>
+                            <!-- Prize is here (in center overlay too) -->
+                            <div id="prize-display" class="bg-white/10 p-4 clip-corner text-xl font-bold text-white mb-6 border border-lp-gold">???</div>
+                            <a id="whatsapp-btn" href="#" target="_blank" class="block w-full py-3 bg-[#25D366] text-white font-bold uppercase clip-corner hover:bg-[#128C7E] transition-colors mb-2 shadow-[0_0_15px_rgba(37,211,102,0.3)]">
+                                <i class="fa-brands fa-whatsapp mr-2 text-xl"></i> Отправить скриншот
+                            </a>
+                            <p class="text-xs text-gray-500 mb-4">Сделайте скриншот и отправьте администратору для получения.</p>
+                            <button onclick="resetFortune()" class="text-gray-400 underline hover:text-white text-sm">Крутить еще раз (Нужен новый код)</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2 space-y-6">
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                        <h3 class="font-header text-2xl text-white uppercase mb-4 flex items-center gap-3"><i class="fa-solid fa-scroll text-lp-gold"></i> Правила Ивента</h3>
+                        <ul class="space-y-3 text-sm text-gray-300 list-disc list-inside">
+                            <li>Оплати участие <span class="text-lp-red font-bold">333 тг</span>.</li>
+                            <li>Получи <span class="text-lp-red font-bold">Код Доступа</span> в WhatsApp.</li>
+                            <li>Введи реальные <span class="text-lp-red font-bold">НИК И ИД</span>.</li>
+                            <li>Нажми <span class="text-lp-red font-bold">"Испытать Удачу"</span>.</li>
+                            <li>Приз будет выдан в течение <span class="text-lp-red font-bold">24 часов</span>.</li>
+                            <li>Обман карается <span class="text-lp-red font-bold">БАНОМ</span>.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/5">
+                        <h4 class="font-header text-lg text-white uppercase mb-3">Реквизиты <span class="text-lp-red font-bold">Kaspi Gold</span></h4>
+                        <div onclick="copyToClipboard('4400430220252026')" class="flex items-center justify-between bg-white/5 p-4 clip-corner mb-2 cursor-pointer hover:bg-white/10 transition-colors group">
+                            <span class="font-mono text-white text-lg md:text-xl font-black whitespace-nowrap select-none tracking-wider">4400 4302 2025 2026</span>
+                            <i class="fa-regular fa-copy text-gray-400 group-hover:text-white transition-colors text-xl"></i>
+                        </div>
+                        <p class="text-xs text-gray-400">В комментарии укажите НИК и ID.</p>
+                    </div>
+                    <!-- Mini Blocks -->
+                    <div class="grid grid-cols-2 gap-4">
+                         <div class="bg-lp-blue/10 p-4 clip-corner border border-lp-blue/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">15+</div><div class="text-[10px] md:text-xs text-lp-blue uppercase font-bold">Призов</div></div>
+                         <div class="bg-lp-gold/10 p-4 clip-corner border border-lp-gold/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">100%</div><div class="text-[10px] md:text-xs text-lp-gold uppercase font-bold">Побед</div></div>
+                         <div class="bg-purple-500/10 p-4 clip-corner border border-purple-500/30 text-center"><div class="text-xl md:text-2xl text-purple-400 mb-1"><i class="fa-regular fa-gem"></i></div><div class="text-[10px] md:text-xs text-purple-400 uppercase font-bold">Алмазы</div></div>
+                         <div class="bg-green-500/10 p-4 clip-corner border border-green-500/30 text-center"><div class="text-xl md:text-2xl text-green-400 mb-1"><i class="fa-solid fa-users"></i></div><div class="text-[10px] md:text-xs text-green-400 uppercase font-bold">Привилегии</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black/80 backdrop-blur-md py-2 border-t border-white/10">
+        <div class="container mx-auto px-4 flex flex-row justify-between items-center gap-2">
+            <h2 class="font-header text-lg md:text-2xl uppercase font-bold text-white">Lost Paradise</h2>
+            <p class="text-gray-600 text-[10px] md:text-sm text-right leading-tight">© 2025 Все права защищены <br>Разработка и дизайн: SunQai</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="alert-modal" class="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-lp-dark border border-lp-red p-6 clip-corner max-w-xs w-[90%] text-center">
+            <i class="fa-solid fa-ban text-lp-red text-4xl mb-4"></i>
+            <p id="alert-msg" class="text-white mb-4"></p>
+            <button onclick="document.getElementById('alert-modal').classList.add('hidden')" class="btn-premium w-full text-white py-2 clip-corner">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // === GLOBAL DATA ===
+        // Generic Placeholder for everything
+        const GENERIC_IMG = "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80";
+
+        const elitePlayers = [
+            { id: 1, nick: "Losᴛㅤʏᴜᴛᴀ", uid: "813296733", role: "Офицер", roleType: "bronze", img: GENERIC_IMG },
+            { id: 2, nick: "Losᴛㅤᴀꜱᴀᴅ", uid: "4387660092", role: "Офицер", roleType: "bronze", img: GENERIC_IMG },
+            { id: 3, nick: "Losᴛㅤᴀsᴜɴᴀ", uid: "6329993639", role: "Офицер", roleType: "pink", img: GENERIC_IMG },
+            { id: 4, nick: "Losᴛㅤᴋɪʀɪᴛᴏ", uid: "2331613212", role: "Лидер", roleType: "gold", img: GENERIC_IMG },
+            { id: 5, nick: "Losᴛㅤsɪʟᴠᴇʀ", uid: "940020098", role: "ВИОЛ", roleType: "silver", img: GENERIC_IMG },
+            { id: 6, nick: "Losᴛㅤʙᴀᴋɪ", uid: "8747162046", role: "НАБЛ", roleType: "purple", img: GENERIC_IMG },
+            { id: 7, nick: "Losᴛㅤɪsᴀɢɪ", uid: "1238666006", role: "НАБЛ", roleType: "purple", img: GENERIC_IMG }
+        ];
+
+        const wheelPrizes = [
+            { text: "100 💎", icon: "", color: "#E0F7FA", bgColor: "#00008B", label: "100 алмазов" },
+            { text: "300 💎", icon: "", color: "#E0F7FA", bgColor: "#1E90FF", label: "300 алмазов" },
+            { text: "Ваучер", icon: "🎟", color: "#F3E5F5", bgColor: "#4B0082", label: "Недельный ваучер" },
+            { text: "Проверка", icon: "🔍", color: "#FFF8E1", bgColor: "#B8860B", label: "Проверка аккаунта" },
+            { text: "Fast Check", icon: "⚡", color: "#FFF3E0", bgColor: "#FF8C00", label: "Проверка без очереди" },
+            { text: "Друзья", icon: "🤝", color: "#E1F5FE", bgColor: "#008B8B", label: "Добавить в друзья" },
+            { text: "PvP 1x1", icon: "⚔️", color: "#E1F5FE", bgColor: "#4682B4", label: "Матч 1vs1" },
+            { text: "500 HP", icon: "🛡️", color: "#E1F5FE", bgColor: "#5F9EA0", label: "Игра 500 HP" },
+            { text: "Squad", icon: "👥", color: "#E1F5FE", bgColor: "#2F4F4F", label: "Приглашение всей команды" },
+            { text: "Invite", icon: "🏰", color: "#E3F2FD", bgColor: "#0000CD", label: "Вступление без проверки" },
+            { text: "500 ₸", icon: "💰", color: "#E8F5E9", bgColor: "#006400", label: "500 ₸" },
+            { text: "Оценка", icon: "📊", color: "#FFEBEE", bgColor: "#8B0000", label: "Оценка аккаунта" },
+            { text: "Буст", icon: "🚀", color: "#FBE9E7", bgColor: "#A52A2A", label: "Буст Bo / K-D" }
+        ];
+
+        let activeIndex = 3; // Start with Leader (Kirito is index 3)
+
+        // === FUNCTIONS ===
+        
+        function buildWheel(elementId, withText = true) {
+            const wheel = document.getElementById(elementId);
+            if(!wheel) return;
+            
+            wheel.innerHTML = '';
+            const numSegments = wheelPrizes.length;
+            const segmentAngle = 360 / numSegments;
+            
+            // Build Gradient (Starts at 0deg = 12 o'clock)
+            let gradientStr = 'conic-gradient(';
+            for(let i=0; i<numSegments; i++) {
+                gradientStr += `${wheelPrizes[i].bgColor} ${i*segmentAngle}deg ${(i+1)*segmentAngle}deg${i===numSegments-1?'':', '}`;
+            }
+            gradientStr += ')';
+            wheel.style.background = gradientStr;
+            
+            if(withText) {
+                wheelPrizes.forEach((prize, i) => {
+                    const segment = document.createElement('div');
+                    segment.className = 'wheel-segment-content';
+                    
+                    // Rotation logic corrected:
+                    // 1. Calculate center angle of the segment (i * angle + half_angle)
+                    // 2. Subtract 90 degrees because HTML elements start at 3 o'clock (90deg), 
+                    //    but our gradient starts at 12 o'clock (0deg).
+                    const rotation = (i * segmentAngle) + (segmentAngle / 2) - 90;
+                    
+                    segment.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
+                    segment.style.color = prize.color;
+                    segment.style.textShadow = `0 0 2px rgba(0,0,0,0.8)`; 
+                    segment.innerHTML = `<span class="mr-2">${prize.text}</span><span class="text-base">${prize.icon}</span>`;
+                    wheel.appendChild(segment);
+                });
+            }
+        }
+
+        function renderCoverflow() {
+            const container = document.getElementById('coverflow-list');
+            if(!container) return;
+            container.innerHTML = '';
+
+            elitePlayers.forEach((player, index) => {
+                const card = document.createElement('div');
+                card.className = 'player-card';
+                
+                const colors = {
+                    gold: { border: '#FFD700', text: 'text-rank-gold', shadow: '0 0 20px rgba(255, 215, 0, 0.4)' },
+                    silver: { border: '#E5E7EB', text: 'text-rank-silver', shadow: '0 0 15px rgba(229, 231, 235, 0.3)' },
+                    bronze: { border: '#CD7F32', text: 'text-rank-bronze', shadow: '0 0 15px rgba(205, 127, 50, 0.3)' },
+                    purple: { border: '#A855F7', text: 'text-rank-purple', shadow: '0 0 15px rgba(168, 85, 247, 0.3)' },
+                    pink: { border: '#FF69B4', text: 'text-rank-pink', shadow: '0 0 15px rgba(255, 105, 180, 0.3)' } 
+                };
+                const style = colors[player.roleType];
+
+                card.innerHTML = `
+                    <div class="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <!-- Placeholder Circle -->
+                    </div>
+                    
+                    <div class="absolute top-1 right-3 z-10 font-header font-bold text-3xl text-black opacity-90" style="text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">
+                        ${index+1}
+                    </div>
+                    
+                    <img src="${player.img}" class="avatar" alt="${player.nick}">
+                    
+                    <!-- 
+                       ИСПРАВЛЕНО: Градиент максимально компактный.
+                       pt-8: уменьшен верхний отступ (был 14)
+                       from-black/90 via-black/40: градиент быстрее становится прозрачным
+                    -->
+                    <div class="absolute bottom-0 w-full px-3 pb-3 pt-8 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
+                        <div class="font-header text-xl md:text-2xl text-white uppercase tracking-wider mb-1 cursor-pointer hover:text-lp-blue transition-colors flex items-center gap-2 group/nick" onclick="router.navigate('players'); event.stopPropagation()">
+                            ${player.nick} <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-0 group-hover/nick:opacity-100 transition-opacity"></i>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="text-[10px] md:text-xs text-gray-300 font-mono cursor-pointer hover:text-white transition-colors flex items-center gap-1 active:text-green-400 group/id" onclick="copyToClipboard('${player.uid}'); event.stopPropagation()" title="Скопировать ID">
+                                ${player.uid} <i class="fa-regular fa-copy text-[8px] opacity-50 group-hover/id:opacity-100"></i>
+                            </div>
+                            <div class="font-bold uppercase text-[9px] md:text-[10px] ${style.text} tracking-widest border border-current px-1.5 py-0.5 rounded">
+                                ${player.role}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const offset = index - activeIndex;
+                const absOffset = Math.abs(offset);
+                const isActive = offset === 0;
+
+                card.style.borderColor = isActive ? style.border : 'rgba(255,255,255,0.1)';
+                card.style.borderWidth = isActive ? '2px' : '1px';
+                if(isActive) card.style.boxShadow = style.shadow;
+
+                let transform = '';
+                let zIndex = 10 - absOffset;
+                let opacity = 1;
+
+                if (isActive) {
+                    // Центральная карта
+                    transform = `translateX(0) scale(1.1) rotateY(0deg)`;
+                } else {
+                    const isMobile = window.innerWidth < 768;
+                    const spacing = isMobile ? 120 : 190; 
+                    const rotateAngle = isMobile ? -10 : -20;
+                    const scale = 1 - (absOffset * 0.25);
+                    const rotate = offset * rotateAngle;
+                    const translateX = offset * spacing;
+                    
+                    transform = `translateX(${translateX}px) scale(${scale}) rotateY(${rotate}deg)`;
+                    opacity = 1 - (absOffset * 0.2); 
+                }
+
+                card.style.transform = transform;
+                card.style.zIndex = zIndex;
+                card.style.opacity = Math.max(opacity, 0);
+
+                card.onclick = () => {
+                    activeIndex = index;
+                    renderCoverflow();
+                };
+
+                container.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            try { document.execCommand('copy'); } catch (err) { console.error('Copy failed', err); }
+            document.body.removeChild(textArea);
+        }
+
+        function renderPlayers() {
+            const tbody = document.getElementById('players-list-body');
+            if(!tbody || tbody.children.length > 0) return;
+            
+            const roles = ["Офицер", "Офицер", "Офицер", "Лидер", "ВИОЛ", "НАБЛ", "НАБЛ"];
+            const colors = ["text-rank-bronze", "text-rank-bronze", "text-rank-pink", "text-rank-gold", "text-rank-silver", "text-rank-purple", "text-rank-purple"];
+            const uids = ["813296733", "4387660092", "6329993639", "2331613212", "940020098", "8747162046", "1238666006"];
+            const nicks = ["Losᴛㅤʏᴜᴛᴀ", "Losᴛㅤᴀꜱᴀᴅ", "Losᴛㅤᴀsᴜɴᴀ", "Losᴛㅤᴋɪʀɪᴛᴏ", "Losᴛㅤsɪʟᴠᴇʀ", "Losᴛㅤʙᴀᴋɪ", "Losᴛㅤɪsᴀɢɪ"];
+
+            let html = '';
+            for(let i=1; i<=50; i++) { 
+                let role = i <= 7 ? roles[i-1] : "Боец";
+                let color = i <= 7 ? colors[i-1] : "text-gray-400";
+                let nick = i <= 7 ? nicks[i-1] : `Lost_${Math.floor(Math.random() * 1000)}`;
+                let uid = i <= 7 ? uids[i-1] : "0";
+                
+                html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                    <td class="p-2 text-gray-500 font-mono text-xs">${i}</td>
+                    <td class="p-2 text-white font-bold">${nick}</td>
+                    <td class="p-2 text-gray-400 font-mono text-xs flex items-center gap-1 cursor-pointer active:text-green-500" onclick="copyToClipboard('${uid}')">
+                        ${uid} <i class="fa-regular fa-copy text-[10px]"></i>
+                    </td>
+                    <td class="p-2 uppercase text-xs font-bold ${color}">${role}</td>
+                </tr>`; 
+            }
+            tbody.innerHTML = html;
+        }
+
+        function submitChallenge(e, type) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            const msg = `Вызов на ${type}:\nГильдия: ${data.get('guildName')}\nID: ${data.get('guildId')}\nУровень: ${data.get('guildLevel') || '-'}\nWP: ${data.get('wpNumber')}`;
+            window.open(`https://wa.me/77073473349?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function submitRevanche(e, type) {
+            e.preventDefault();
+            const msg = `Запрос на реванш (${type}). Чек оплаты прикреплю следом.`;
+            window.open(`https://wa.me/77073473349?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function initFortunePage() {
+            buildWheel('fortune-wheel', true);
+            buildWheel('decorative-wheel-bg', false);
+
+            const hasSpun = localStorage.getItem('lp_fortune_spun');
+            const formContainer = document.getElementById('fortune-form-container');
+            const resultContainer = document.getElementById('fortune-result');
+            const prizeDisplay = document.getElementById('prize-display');
+
+            if (hasSpun) {
+                formContainer.style.display = 'none';
+                resultContainer.classList.remove('hidden');
+                const savedPrize = localStorage.getItem('lp_fortune_prize') || "Ошибка";
+                prizeDisplay.textContent = savedPrize;
+                updateWhatsAppLink(savedPrize);
+                const savedDeg = localStorage.getItem('lp_fortune_deg') || 0;
+                document.getElementById('fortune-wheel').style.transform = `rotate(${savedDeg}deg)`;
+            } else {
+                formContainer.style.display = 'block';
+                resultContainer.classList.add('hidden');
+                document.getElementById('fortune-wheel').style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        function resetFortune() {
+            localStorage.removeItem('lp_fortune_spun');
+            document.getElementById('fortune-result').classList.add('hidden');
+            document.getElementById('fortune-form-container').style.display = 'block';
+            document.getElementById('fortune-wheel').style.transform = 'rotate(0deg)';
+            document.getElementById('fortune-form').reset();
+            document.getElementById('real-spin-btn').disabled = false;
+            document.getElementById('real-spin-btn').innerHTML = 'ИСПЫТАТЬ УДАЧУ';
+        }
+
+        function updateWhatsAppLink(prizeName) {
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const adminPhone = "+77073473349"; 
+            const msg = encodeURIComponent(`Привет! Я выиграл приз в колесе фортуны: ${prizeName}. Вот мой скриншот.`);
+            whatsappBtn.href = `https://wa.me/${adminPhone}?text=${msg}`;
+        }
+
+        function showAlert(msg) {
+            document.getElementById('alert-msg').textContent = msg;
+            document.getElementById('alert-modal').classList.remove('hidden');
+        }
+
+        // === ROUTER ===
+        const router = {
+            pages: {
+                home: document.getElementById('page-home'),
+                players: document.getElementById('page-players'),
+                fortune: document.getElementById('page-fortune'),
+                modeKv: document.getElementById('page-mode-kv'),
+                modeZaruba: document.getElementById('page-mode-zaruba'),
+                modeProverka: document.getElementById('page-mode-proverka')
+            },
+            navigate(route, targetId = null) {
+                window.scrollTo(0,0);
+                Object.values(this.pages).forEach(p => { 
+                    if(p) { p.classList.remove('active'); p.style.display = 'none'; }
+                });
+
+                if (route === 'home') {
+                    this.pages.home.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        this.pages.home.classList.add('active');
+                        if (targetId) setTimeout(() => document.getElementById(targetId)?.scrollIntoView({behavior:'smooth'}), 100);
+                    });
+                } else if (route === 'fortune') {
+                    this.pages.fortune.style.display = 'block';
+                    requestAnimationFrame(() => this.pages.fortune.classList.add('active'));
+                    initFortunePage(); 
+                } else if (route === 'players') {
+                    renderPlayers();
+                    this.pages.players.style.display = 'block';
+                    requestAnimationFrame(() => this.pages.players.classList.add('active'));
+                } else if (route.startsWith('mode-')) {
+                    const modeMap = { 'mode-kv': 'modeKv', 'mode-zaruba': 'modeZaruba', 'mode-proverka': 'modeProverka' };
+                    this.pages[modeMap[route]].style.display = 'block';
+                    requestAnimationFrame(() => this.pages[modeMap[route]].classList.add('active'));
+                }
+            }
+        };
+
+        // === INIT ===
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+            buildWheel('decorative-wheel-bg', false);
+            renderCoverflow();
+            
+            const menuBtn = document.getElementById('menu-btn');
+            const sideMenu = document.getElementById('side-menu');
+            if(menuBtn) menuBtn.addEventListener('click', () => sideMenu.classList.remove('translate-x-full'));
+            if(document.getElementById('close-menu-btn')) document.getElementById('close-menu-btn').addEventListener('click', () => sideMenu.classList.add('translate-x-full'));
+            
+            window.addEventListener('resize', renderCoverflow);
+
+            // WhatsApp Join Logic
+            document.getElementById('join-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const phone = document.getElementById('phone').value;
+                const msg = `Заявка в гильдию Lost Paradise:\nИмя: ${name}\nВозраст: ${age}\nСвязь: ${phone}`;
+                window.open(`https://wa.me/77073473349?text=${encodeURIComponent(msg)}`, '_blank');
+                e.target.reset();
+            });
+
+            // Fortune Logic (Correct Bottom Alignment)
+            document.getElementById('fortune-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const code = document.getElementById('access-code').value;
+                if (code.length < 4) { showAlert("Неверный код доступа!"); return; }
+                const btn = document.getElementById('real-spin-btn');
+                btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Крутим...';
+                const wheel = document.getElementById('fortune-wheel');
+                
+                // Logic for Bottom Alignment (180 deg)
+                // Arrow is at BOTTOM (6 o'clock). In CSS conic gradient, 6 o'clock is 180deg.
+                const randomPrizeIndex = Math.floor(Math.random() * wheelPrizes.length);
+                const segmentAngle = 360 / wheelPrizes.length;
+                
+                // Increase spins for visual effect (e.g. 5 to 10 full spins)
+                const extraSpins = 360 * (5 + Math.floor(Math.random() * 5)); 
+                
+                // Center of the prize segment (relative to 12 o'clock start)
+                const centerAngleOfPrize = (randomPrizeIndex * segmentAngle) + (segmentAngle / 2);
+                
+                // We want the wheel rotated such that 'centerAngleOfPrize' ends up at 180deg (Bottom).
+                // Final Position = Initial Position (centerAngle) + Rotation
+                // 180 = centerAngle + stopAngle => stopAngle = 180 - centerAngle
+                
+                const stopAngle = extraSpins + (180 - centerAngleOfPrize); 
+
+                wheel.style.transform = `rotate(${stopAngle}deg)`;
+
+                setTimeout(() => {
+                    const prizeObj = wheelPrizes[randomPrizeIndex];
+                    const prizeLabel = prizeObj.label; 
+                    localStorage.setItem('lp_fortune_spun', 'true');
+                    localStorage.setItem('lp_fortune_prize', prizeLabel);
+                    localStorage.setItem('lp_fortune_deg', stopAngle);
+                    
+                    document.getElementById('fortune-form-container').style.display = 'none';
+                    document.getElementById('fortune-result').classList.remove('hidden');
+                    
+                    document.getElementById('prize-display').textContent = prizeLabel;
+                    document.getElementById('prize-display').style.color = prizeObj.bgColor;
+                    document.getElementById('prize-display').style.borderColor = prizeObj.bgColor;
+                    
+                    updateWhatsAppLink(prizeLabel);
+                }, 4000); 
+            });
+        });
+        
+        function closeMenu() { document.getElementById('side-menu').classList.add('translate-x-full'); }
+        function toggleAccordion(btn) { btn.parentElement.classList.toggle('accordion-active'); }
+    </script>
+</body>
+</html>
