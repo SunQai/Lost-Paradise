@@ -37,6 +37,7 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         header: ['Oswald', 'sans-serif'],
+                        mono: ['Courier New', 'monospace'], /* Added for tactical text */
                     },
                 }
             }
@@ -51,40 +52,26 @@
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
             
-            /* АТМОСФЕРНЫЙ ФОН (Без сетки/паттернов) */
+            /* АТМОСФЕРНЫЙ ФОН */
             background-image: 
-                /* 1. Верхний "воздух" и основной свет (Синий) */
-                radial-gradient(ellipse at 50% -20%, rgba(30, 144, 255, 0.12) 0%, transparent 70%),
-                
-                /* 2. Мягкая глубина справа (Фиолетовый) */
-                radial-gradient(circle at 90% 30%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
-                
-                /* 3. Агрессивный акцент снизу слева (Красный) */
-                radial-gradient(circle at 0% 85%, rgba(231, 29, 54, 0.05) 0%, transparent 60%),
-                
-                /* 4. Легкое свечение снизу справа (Золото) */
-                radial-gradient(circle at 100% 100%, rgba(255, 215, 0, 0.03) 0%, transparent 40%),
-                
-                /* 5. Общее затемнение к низу для контраста контента */
-                linear-gradient(to bottom, rgba(11, 11, 13, 0) 0%, rgba(11, 11, 13, 0.5) 100%);
+                radial-gradient(ellipse at 50% -20%, rgba(30, 144, 255, 0.08) 0%, transparent 70%),
+                radial-gradient(circle at 90% 30%, rgba(168, 85, 247, 0.03) 0%, transparent 50%),
+                linear-gradient(to bottom, rgba(11, 11, 13, 0) 0%, rgba(11, 11, 13, 0.8) 100%);
             
-            background-attachment: fixed; /* Фиксируем фон для эффекта параллакса/глубины */
+            background-attachment: fixed;
             background-size: cover;
         }
 
-        /* Отключаем сетку, так как фон теперь атмосферный */
-        .bg-grid-pattern {
-            display: none;
-        }
+        .bg-grid-pattern { display: none; }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #09090b; }
-        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: #27272a; }
         ::-webkit-scrollbar-thumb:hover { background: #1E90FF; }
 
         /* Animations */
-        .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in-up { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in-up.visible { opacity: 1; transform: translateY(0); }
 
         /* UI Elements */
@@ -96,22 +83,44 @@
             position: relative; overflow: hidden;
         }
         .btn-premium:active { transform: scale(0.98); }
-        .btn-premium::after {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(to bottom right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
-            transform: rotate(45deg); transition: all 0.3s;
-        }
 
         .clip-corner { clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
 
+        /* PLASTIC / GLASS WRAP EFFECT (New) */
+        .plastic-wrap {
+            background: rgba(255, 255, 255, 0.015);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                inset 0 0 20px rgba(255, 255, 255, 0.02),
+                0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .plastic-wrap::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 100%;
+            background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.03) 40%, rgba(255,255,255,0) 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .plastic-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            opacity: 0.5;
+        }
+
         /* Pages */
         .page-section { 
-            display: none; animation: fadeIn 0.5s ease; 
-            padding-top: 140px; padding-bottom: 60px; min-height: 100vh; 
+            display: none; animation: fadeIn 0.4s ease; 
+            padding-top: 100px; padding-bottom: 60px; min-height: 100vh; 
         }
         .page-section.active { display: block; }
         #page-home { padding-top: 0; padding-bottom: 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         /* Coverflow Elite Cards */
         .coverflow-scene { perspective: 1000px; height: 380px; width: 100%; display: flex; justify-content: center; align-items: center; overflow: visible; }
@@ -119,7 +128,7 @@
         
         .player-card {
             position: absolute; left: 50%; top: 50%; margin-left: -110px; margin-top: -160px;
-            width: 220px; height: 320px; border-radius: 30px;
+            width: 220px; height: 320px; border-radius: 20px;
             background: linear-gradient(160deg, #1a1a1a 0%, #0d0d0d 60%, #1a1a1a 100%);
             border: 1px solid rgba(255, 215, 0, 0.2);
             transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; overflow: hidden;
@@ -129,7 +138,7 @@
 
         @media (max-width: 768px) {
             .coverflow-scene { height: 320px; }
-            .player-card { width: 160px; height: 260px; margin-left: -80px; margin-top: -130px; border-radius: 20px; }
+            .player-card { width: 160px; height: 260px; margin-left: -80px; margin-top: -130px; border-radius: 16px; }
         }
 
         /* Wheel */
@@ -138,13 +147,14 @@
         .wheel-segment-content {
             position: absolute; top: 50%; left: 50%; width: 50%; height: 20px; 
             transform-origin: 0 50%; display: flex; align-items: center; justify-content: flex-end;
-            padding-right: 15px; box-sizing: border-box; text-align: right;
-            font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; white-space: nowrap;
+            padding-right: 20px; box-sizing: border-box; text-align: right;
+            font-family: 'Oswald', sans-serif; 
+            font-size: 16px; 
+            font-weight: 700; text-transform: uppercase; white-space: nowrap;
         }
         .wheel-decorative { animation: slow-spin 20s linear infinite; }
         @keyframes slow-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
-        /* СТРЕЛКА СПРАВА */
         .wheel-arrow { 
             position: absolute; 
             top: 50%; 
@@ -183,10 +193,10 @@
     <header class="fixed top-0 w-full z-40 bg-black/90 backdrop-blur-lg border-b border-white/5" id="navbar">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="router.navigate('home')">
-                <div class="w-10 h-10 bg-gradient-to-br from-lp-blue to-black flex items-center justify-center border border-lp-blue clip-corner shrink-0 overflow-hidden">
+                <div class="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-br from-lp-blue to-black flex items-center justify-center border border-lp-blue clip-corner shrink-0 overflow-hidden">
                     <img src="img/LP_Logo.jpg" alt="Lost Paradise" class="w-full h-full object-cover">
                 </div>
-                <h1 class="font-header text-xl md:text-2xl tracking-wider text-white uppercase font-bold truncate">Lost <span class="text-lp-blue">Paradise</span></h1>
+                <h1 class="font-header text-lg md:text-2xl tracking-wider text-white uppercase font-bold truncate">Lost <span class="text-lp-blue">Paradise</span></h1>
             </div>
             <button id="menu-btn" class="text-white hover:text-lp-blue transition-colors text-2xl focus:outline-none p-2"><i class="fa-solid fa-bars"></i></button>
         </div>
@@ -197,7 +207,7 @@
         <button id="close-menu-btn" class="absolute top-6 right-6 text-white text-4xl hover:text-lp-blue transition-colors p-2"><i class="fa-solid fa-times"></i></button>
         <nav class="flex flex-col text-left gap-5 font-header uppercase tracking-widest font-bold overflow-y-auto max-h-[85vh] pr-4 w-full">
             <a href="#" onclick="router.navigate('home'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Главная</a>
-            <a href="#" onclick="router.navigate('home', 'join-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Вступить</a>
+            <a href="#" onclick="openJoinModal(); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Вступить</a>
             <div class="flex flex-col gap-1">
                 <a href="#" onclick="router.navigate('home', 'modes-section'); closeMenu()" class="text-2xl text-white hover:text-lp-blue transition-colors">Режимы</a>
                 <div class="flex flex-col pl-6 gap-2 border-l-2 border-white/20 ml-2">
@@ -218,39 +228,51 @@
         
         <!-- PAGE: HOME -->
         <div id="page-home" class="page-section active pt-0 pb-0">
-            <!-- Hero Section -->
-            <section class="relative min-h-[90vh] pt-32 pb-20 flex items-center justify-center overflow-hidden">
-                <div class="absolute inset-0 z-0">
-                    <img src="img/LP_Logo.jpg" alt="Lost Paradise" class="w-full h-full object-cover opacity-20">
-                    <div class="absolute inset-0 bg-gradient-to-b from-lp-black/90 via-lp-black/50 to-lp-black/90"></div>
+            
+            <!-- NEW COMPACT HERO SECTION -->
+            <section class="relative pt-32 pb-16 flex flex-col items-center justify-center min-h-[50vh] overflow-hidden">
+                <!-- Background Decoration -->
+                <div class="absolute inset-0 z-0 pointer-events-none">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-lp-blue/5 blur-[100px] rounded-full"></div>
                 </div>
 
-                <div class="container mx-auto px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center">
-                    <div class="text-center md:text-left fade-in-up">
-                        <div class="inline-block px-3 py-1 mb-4 border border-lp-blue/50 text-lp-blue text-xs font-bold tracking-[0.2em] uppercase bg-lp-blue/10 clip-corner">Official Guild</div>
-                        <h1 class="font-header text-3xl sm:text-5xl md:text-7xl font-bold uppercase leading-tight mb-4">
-                            Welcome to <br> <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Lost Paradise</span>
-                        </h1>
-                        <p class="text-lg md:text-xl text-lp-gray font-light mb-6 tracking-wide italic border-l-4 border-lp-blue pl-4">
-                            Победа всегда имеет прайс.
-                        </p>
-                        <p class="mb-8 text-gray-400 max-w-lg mx-auto md:mx-0 text-sm md:text-base leading-relaxed">
-                            «Ты больше никогда не будешь ходить. Но ты будешь летать» — это принцип нашей гильдии. Мы не действуем наугад и не идём, как все. Мы поднимаемся выше, чтобы видеть ситуацию целиком, принимать решения заранее и вступать в бой только тогда, когда исход уже понятен. Наше преимущество — взгляд сверху, расчёт и контроль.
-                        </p>
+                <div class="relative z-10 container mx-auto px-6 flex flex-col items-center">
+                    
+                    <!-- Compact Headers -->
+                    <div class="text-center mb-10 fade-in-up">
+                        <h4 class="text-xl md:text-2xl font-mono uppercase tracking-[0.2em] text-gray-500 mb-2">Welcome to</h4>
+                        <h3 class="font-header text-2xl md:text-4xl font-bold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 drop-shadow-sm">
+                            Lost Paradise
+                        </h3>
                     </div>
 
-                    <!-- Join Form -->
-                    <div id="join-section" class="bg-black/40 backdrop-blur-md border border-white/10 p-6 md:p-8 clip-corner fade-in-up" style="animation-delay: 0.2s;">
-                        <h3 class="font-header text-2xl text-white uppercase mb-6 flex items-center justify-center gap-2"><i class="fa-solid fa-file-signature text-lp-blue"></i> Вступление</h3>
-                        <form id="join-form" class="space-y-4">
-                            <input type="text" id="name" placeholder="Твое имя" class="w-full bg-black/60 border border-gray-700 text-white p-3 text-base focus:border-lp-blue focus:outline-none clip-corner placeholder-gray-600" required>
-                            <div class="grid grid-cols-2 gap-4">
-                                <input type="number" id="age" placeholder="Возраст" class="w-full bg-black/60 border border-gray-700 text-white p-3 text-base focus:border-lp-blue focus:outline-none clip-corner placeholder-gray-600" required>
-                                <input type="text" id="phone" placeholder="Номер (WP)" class="w-full bg-black/60 border border-gray-700 text-white p-3 text-base focus:border-lp-blue focus:outline-none clip-corner placeholder-gray-600" required>
-                            </div>
-                            <button type="submit" class="btn-premium w-full text-white font-header font-bold uppercase tracking-wider py-4 mt-4 clip-corner touch-manipulation">Подать заявку</button>
-                        </form>
+                    <!-- Plastic/Glass Wrap Container -->
+                    <div class="plastic-wrap w-full max-w-[400px] p-6 clip-corner group fade-in-up" style="animation-delay: 0.1s;">
+                        
+                        <!-- Top Left Label -->
+                        <div class="absolute top-3 left-3 flex items-center gap-2 opacity-80">
+                            <div class="w-1 h-1 bg-lp-blue rounded-full animate-pulse"></div>
+                            <span class="text-[8px] font-mono uppercase tracking-widest text-lp-blue">Сообщение от гильдии</span>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="mt-4 pl-3 border-l border-white/20 relative z-10">
+                            <p class="font-sans text-sm md:text-base text-gray-300 leading-relaxed text-left font-light">
+                                Мы запустили официальный сайт гильдии.<br>
+                                <span class="text-gray-500">Здесь будут события, решения и информация для своих.</span>
+                            </p>
+                        </div>
+
+
+                        <!-- Action Button (Centered at bottom) -->
+                        <div class="flex justify-center mt-8">
+                            <button onclick="openJoinModal()" class="relative overflow-hidden group/btn px-6 py-2 bg-white/5 border border-white/10 hover:border-lp-blue/50 hover:bg-lp-blue/10 transition-all duration-300 clip-corner">
+                                <span class="relative z-10 font-header text-xs font-bold uppercase tracking-widest text-white group-hover/btn:text-lp-blue transition-colors">Вступить в гильдию</span>
+                                <div class="absolute inset-0 bg-lp-blue/5 transform translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300"></div>
+                            </button>
+                        </div>
                     </div>
+
                 </div>
             </section>
 
@@ -379,54 +401,61 @@
                     <div class="h-1 w-24 bg-lp-blue mx-auto mt-4"></div>
                 </div>
                 <div class="space-y-4 fade-in-up">
+                    <!-- Q1 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-header text-base md:text-lg uppercase text-left">Что такое гильдия?</span>
+                            <span class="font-header text-base md:text-lg uppercase text-left">Что представляет собой гильдия Lost Paradise?</span>
                             <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
                         </button>
-                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Гильдия — это объединение игроков для совместной игры, развития и достижения общих целей.</div></div>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Lost Paradise — это активная гильдия, ориентированная на командную игру, развитие и комфортную атмосферу для участников.</div></div>
                     </div>
+                    <!-- Q2 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-header text-base md:text-lg uppercase text-left">Как вступить в гильдию?</span>
+                            <span class="font-header text-base md:text-lg uppercase text-left">Есть ли в гильдии фан и общение?</span>
                             <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
                         </button>
-                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Для вступления необходимо подать заявку и дождаться решения руководства.</div></div>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. Помимо игры, у гильдии есть активное общение вне матчей, включая фан-беседу для свободного общения и отдыха.</div></div>
                     </div>
-                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
-                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-header text-base md:text-lg uppercase text-left">Есть ли требования для вступления?</span>
-                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
-                        </button>
-                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да, требования могут включать активность, уровень персонажа и соблюдение правил гильдии.</div></div>
-                    </div>
+                    <!-- Q3 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-header text-base md:text-lg uppercase text-left">Обязателен ли голосовой чат?</span>
+                            <span class="font-header text-base md:text-lg uppercase text-left">Какая атмосфера внутри гильдии?</span>
                             <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
                         </button>
-                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Использование голосового чата желательно для координации, но не всегда обязательно.</div></div>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">В гильдии поддерживается дружелюбная и уважительная атмосфера. Участники помогают друг другу и играют как одна команда.</div></div>
                     </div>
-                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                    <!-- Q4 -->
+                    <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-header text-base md:text-lg uppercase text-left">Есть ли правила внутри гильдии?</span>
+                            <span class="font-header text-base md:text-lg uppercase text-left">Проводятся ли совместные активности?</span>
                             <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
                         </button>
-                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да, в гильдии действует внутренний устав, обязательный для всех участников.</div></div>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. Мы регулярно играем мясо, участвуем в турнирах на 500 HP, проводим совместные игры и другие активности.</div></div>
                     </div>
+                    <!-- Q5 -->
+                    <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Есть ли правила в гильдии?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. В гильдии действуют правила, обязательные для всех участников. Они нужны для порядка и комфортной игры.</div></div>
+                    </div>
+                    <!-- Q6 -->
+                    <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
+                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                            <span class="font-header text-base md:text-lg uppercase text-left">Можно ли найти друзей в Lost Paradise?</span>
+                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
+                        </button>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. Гильдия — это не только игра, но и сообщество, где легко найти друзей и постоянных тиммейтов.</div></div>
+                    </div>
+                    <!-- Q7 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Можно ли покинуть гильдию?</span>
                             <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
                         </button>
-                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Игрок может покинуть гильдию в любой момент, предупредив руководство.</div></div>
-                    </div>
-                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
-                        <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
-                            <span class="font-header text-base md:text-lg uppercase text-left">Какую пользу даёт гильдия?</span>
-                            <i class="fa-solid fa-chevron-down accordion-icon text-lp-blue ml-4"></i>
-                        </button>
-                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Гильдия даёт поддержку, командную игру, помощь в развитии и участие в совместных активностях.</div></div>
+                        <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. Участник может покинуть гильдию в любой момент, заранее уведомив руководство.</div></div>
                     </div>
                 </div>
             </section>
@@ -478,7 +507,7 @@
             </section>
         </div>
 
-        <!-- PAGE: PLAYERS LIST (NEW) -->
+        <!-- PAGE: PLAYERS LIST -->
         <div id="page-players" class="page-section container mx-auto px-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
                 <div class="flex items-center gap-4 w-full">
@@ -513,7 +542,7 @@
 
         <!-- PAGE: MODE KV -->
         <div id="page-mode-kv" class="page-section container mx-auto px-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
+             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
                 <div class="flex items-center gap-4 w-full">
                     <button onclick="router.navigate('home', 'modes-section')" class="text-gray-400 hover:text-white transition-colors px-6 py-3 flex items-center gap-2 border border-white/10 hover:border-lp-blue hover:bg-lp-blue/10 clip-corner bg-black/40 font-header tracking-wider uppercase text-sm w-full md:w-auto justify-center">
                         <i class="fa-solid fa-arrow-left"></i> Назад
@@ -738,78 +767,162 @@
                     </div>
                 </div>
             </div>
+            
             <div class="grid md:grid-cols-2 gap-6">
-                <!-- LEFT COLUMN -->
+                 <!-- LEFT COLUMN (Now Rules): Rules Split (Ultimatum & SNS) -->
+                 <div class="space-y-12">
+                     
+                     <!-- ULTIMATUM MODE (Separated Blocks) -->
+                     <div class="relative">
+                        <div class="flex items-center gap-3 mb-4">
+                            <h2 class="text-2xl font-header uppercase text-white">Ультиматум</h2>
+                            <span class="text-[10px] font-bold bg-lp-red/20 text-lp-red border border-lp-red px-2 py-0.5 rounded clip-corner">HARD MODE</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <!-- Settings -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                                <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Настройка</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm text-left mode-table">
+                                        <tr><th>Урон</th><td>3 хэд / 2 тело</td></tr>
+                                        <tr><th>Патроны</th><td class="text-green-500 font-bold">ДА</td></tr>
+                                        <tr><th>Метательные</th><td class="text-green-500 font-bold">ДА</td></tr>
+                                        <tr><th>Гранаты</th><td class="text-lp-red font-bold">НЕТ</td></tr>
+                                        <tr><th>Авиа/Кибер</th><td class="text-lp-red font-bold">НЕТ</td></tr>
+                                        <tr><th>Экипировка</th><td>2 шлем / 2 броня</td></tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Weapons -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                                <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
+                                <p class="text-sm text-gray-400">Desert Eagle, UMP</p>
+                            </div>
+
+                            <!-- Skills -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                                <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
+                                <div class="text-sm text-gray-400 space-y-2">
+                                    <p><span class="text-lp-gold font-bold">Активные:</span> Только Алок</p>
+                                    <p><span class="text-lp-blue font-bold">Пассивные:</span> Леон, Келли, Моко</p>
+                                </div>
+                            </div>
+
+                            <!-- TP -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
+                                <h3 class="font-header text-xl uppercase text-white mb-3">ТП (Тех. Поражение)</h3>
+                                <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                    <li>Использование запрещенных навыков</li>
+                                    <li>Закрыть игрока за зоной</li>
+                                    <li>Выход из игры</li>
+                                </ul>
+                            </div>
+                        </div>
+                     </div>
+
+                     <!-- SNS MODE (Separated Blocks) -->
+                     <div class="relative pt-8 border-t border-white/10">
+                        <div class="flex items-center gap-3 mb-4">
+                            <h2 class="text-2xl font-header uppercase text-white">СНС</h2>
+                            <span class="text-[10px] font-bold bg-lp-gold/20 text-lp-gold border border-lp-gold px-2 py-0.5 rounded clip-corner">SKILL MODE</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <!-- Settings -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                                <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Настройка</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm text-left mode-table">
+                                        <tr><th>Урон</th><td>3 хэд / 2 тело</td></tr>
+                                        <tr><th>Патроны</th><td class="text-lp-red font-bold">НЕТ</td></tr>
+                                        <tr><th>Метательные</th><td class="text-lp-red font-bold">НЕТ</td></tr>
+                                        <tr><th>Гранаты</th><td class="text-lp-red font-bold">НЕТ</td></tr>
+                                        <tr><th>Авиа/Кибер</th><td class="text-lp-red font-bold">НЕТ</td></tr>
+                                        <tr><th>Экипировка</th><td>2 шлем / 2 броня</td></tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Weapons -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                                <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
+                                <p class="text-sm text-gray-400">Desert Eagle, M1887</p>
+                            </div>
+
+                            <!-- Skills -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                                <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
+                                <div class="text-sm text-gray-400 space-y-2">
+                                    <p><span class="text-lp-gold font-bold">Активные:</span> Только Алок</p>
+                                    <p><span class="text-lp-blue font-bold">Пассивные:</span> Моко, Келли, Королина, Максим, Леон</p>
+                                </div>
+                            </div>
+
+                            <!-- TP -->
+                            <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                                <h3 class="font-header text-xl uppercase text-white mb-3">ТП (Тех. Поражение)</h3>
+                                <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                    <li>Использование запрещенных навыков</li>
+                                    <li>Стрельба с двух патронов (M1887)</li>
+                                    <li>Закрыть игрока за зоной</li>
+                                    <li>Закрыться в стенке</li>
+                                </ul>
+                            </div>
+                        </div>
+                     </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN (Now Pricing & Form): Form & Pricing -->
                  <div class="space-y-6">
+                    
+                    <!-- Pricing Buttons (Separate Blocks) -->
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
-                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Настройка комнаты</h3>
-                         <div class="overflow-x-auto">
-                            <table class="w-full text-sm text-left mode-table">
-                                <tr><th>Карта</th><td>Одинокий Волк</td></tr>
-                                <tr><th>Пароль</th><td>Любой</td></tr>
-                                <tr><th>Раунды</th><td>11 или 13</td></tr>
-                                <tr><th>HP</th><td>200 или 500</td></tr>
-                                <tr><th>Лимит патронов</th><td>НЕТ</td></tr>
-                                <tr><th>Характеристики</th><td>НЕТ</td></tr>
-                                <tr><th>Навыки</th><td>НЕТ</td></tr>
-                            </table>
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Оплата</h3>
+                         <div class="flex flex-col gap-4">
+                            <!-- Button 1 -->
+                            <button onclick="window.open('https://wa.me/77473140807?text=Привет,%20хочу%20оплатить%20Проверку%20(222%20тг)', '_blank')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
+                                <div>
+                                    <div class="font-header uppercase text-white group-hover:text-lp-gold transition-colors text-lg">Стандарт</div>
+                                    <div class="text-xs text-gray-500">Обычная очередь</div>
+                                </div>
+                                <span class="font-bold text-lp-gold text-xl">222 ₸</span>
+                            </button>
+                            
+                            <!-- Button 2 -->
+                            <button onclick="window.open('https://wa.me/77473140807?text=Привет,%20хочу%20оплатить%20Проверку%20Без%20Очереди%20(444%20тг)', '_blank')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
+                                <div>
+                                    <div class="font-header uppercase text-white group-hover:text-lp-gold transition-colors text-lg">Fast Check</div>
+                                    <div class="text-xs text-gray-500">Без очереди</div>
+                                </div>
+                                <span class="font-bold text-lp-gold text-xl">444 ₸</span>
+                            </button>
+
+                            <!-- Button 3 -->
+                            <button onclick="window.open('https://wa.me/77473140807?text=Привет,%20хочу%20купить%20Invite%20(999%20тг)', '_blank')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
+                                <div>
+                                    <div class="font-header uppercase text-white group-hover:text-lp-gold transition-colors text-lg">Invite</div>
+                                    <div class="text-xs text-gray-500">Без проверки</div>
+                                </div>
+                                <span class="font-bold text-lp-gold text-xl">999 ₸</span>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- STANDARDIZED FORM (PROVERKA) -->
+                    <!-- PROVERKA FORM -->
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                         <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Заявка на вызов</h3>
                         <form onsubmit="submitChallenge(event, 'Проверка')" class="space-y-4">
                             <div class="space-y-2">
-                                <input type="text" name="guildName" placeholder="Название гильдии" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none" required>
-                                <input type="text" name="guildId" placeholder="ИД гильдии" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none" required>
-                                <input type="text" name="guildLevel" placeholder="Уровень" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none" required>
+                                <input type="text" name="playerName" placeholder="Имя игрока" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none" required>
+                                <input type="text" name="playerLevel" placeholder="Уровень игрока" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none" required>
+                                <input type="text" name="playerRank" placeholder="Звание в КБ-БО" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none" required>
                                 <input type="text" name="wpNumber" placeholder="Номер" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none" required>
                             </div>
                             <button type="submit" class="w-full py-3 bg-lp-gold text-black font-bold clip-corner uppercase hover:brightness-110 transition-all mt-2">Отправить</button>
                         </form>
-                    </div>
-
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
-                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Реванш (3333 тг)</h3>
-                        <form onsubmit="submitRevanche(event, 'Проверка')" class="space-y-3">
-                             <p class="text-xs text-gray-400">Прикрепите скриншот чека в WhatsApp после нажатия кнопки.</p>
-                            <button type="submit" class="w-full py-2 bg-green-600 text-white font-bold clip-corner uppercase hover:bg-green-500 transition-colors">Запросить реванш</button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- RIGHT COLUMN -->
-                 <div class="space-y-6">
-                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-xl uppercase text-white mb-3">Ограничения</h3>
-                        <ul class="text-sm text-gray-400 list-disc list-inside"><li></li></ul>
-                    </div>
-                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-xl uppercase text-white mb-3">Экипировка</h3>
-                        <ul class="text-sm text-gray-400 list-disc list-inside"><li></li></ul>
-                    </div>
-                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
-                        <ul class="text-sm text-gray-400 list-disc list-inside"><li></li></ul>
-                    </div>
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
-                        <ul class="text-sm text-gray-400 list-disc list-inside"><li></li></ul>
-                    </div>
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-xl uppercase text-white mb-3">Условия боя</h3>
-                        <ul class="text-sm text-gray-400 list-disc list-inside"><li></li></ul>
-                    </div>
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-xl uppercase text-white mb-3">ТП (Тех. Поражение)</h3>
-                        <ul class="text-sm text-gray-400 list-disc list-inside"><li>•</li></ul>
-                    </div>
-                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-xl uppercase text-white mb-3">Доказательства</h3>
-                        <div class="text-sm text-gray-400 space-y-2">
-                             <p>При получении ТП игрок обязан сразу выйти из комнаты. Доказательство ТП отправляется скриншотом.</p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -829,70 +942,74 @@
                 </div>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-12 items-start">
-                <div class="order-2 lg:order-1 flex flex-col items-center">
-                    <div class="relative w-full max-w-[400px] mb-8">
-                        <div class="wheel-arrow"></div>
-                        <div class="wheel-container w-full"><div class="wheel" id="fortune-wheel"></div></div>
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-lp-gold rounded-full border-4 border-black shadow-lg z-20 flex items-center justify-center">
-                            <!-- Guild Logo -->
-                            <img src="img/LP_Logo.jpg" alt="Logo" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div id="fortune-controls" class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
-                        <div id="fortune-form-container">
-                            <h3 class="font-header text-xl text-white uppercase mb-4 text-center">Данные участника</h3>
-                            <form id="fortune-form" class="space-y-4">
-                                <input type="text" id="ff-nick" required placeholder="Ник в игре" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
-                                <input type="text" id="ff-id" required placeholder="ID Free Fire" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
-                                <div class="relative">
-                                    <input type="text" id="access-code" required placeholder="Код доступа" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner pl-10">
-                                    <i class="fa-solid fa-key absolute left-3 top-4 text-gray-500"></i>
-                                </div>
-                                <button type="submit" id="real-spin-btn" class="btn-premium w-full text-white font-header font-bold uppercase py-4 clip-corner border-lp-gold text-lp-gold hover:text-white">ИСПЫТАТЬ УДАЧУ</button>
-                                <p class="text-xs text-gray-500 text-center mt-2"><i class="fa-solid fa-triangle-exclamation text-lp-red"></i> 1 прокрутка на устройство</p>
-                            </form>
-                        </div>
-                        <div id="fortune-result" class="hidden text-center">
-                            <h3 class="font-header text-2xl text-lp-gold uppercase mb-2">Поздравляем!</h3>
-                            <p class="text-gray-400 mb-4">Твой выигрыш:</p>
-                            <div id="prize-display" class="bg-white/10 p-4 clip-corner text-xl font-bold text-white mb-6 border border-lp-gold">???</div>
-                            <a id="whatsapp-btn" href="#" target="_blank" class="block w-full py-3 bg-[#25D366] text-white font-bold uppercase clip-corner hover:bg-[#128C7E] transition-colors mb-2 shadow-[0_0_15px_rgba(37,211,102,0.3)]">
-                                <i class="fa-brands fa-whatsapp mr-2 text-xl"></i> Отправить скриншот
-                            </a>
-                            <p class="text-xs text-gray-500 mb-4">Сделайте скриншот и отправьте администратору для получения.</p>
-                            <button onclick="resetFortune()" class="text-gray-400 underline hover:text-white text-sm">Крутить еще раз (Нужен новый код)</button>
-                        </div>
+            <div class="flex flex-col items-center gap-8 max-w-4xl mx-auto">
+                
+                <!-- 1. 4 ADVANTAGES (Mini Blocks) - ТЕПЕРЬ СВЕРХУ -->
+                <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
+                     <div class="bg-lp-blue/10 p-4 clip-corner border border-lp-blue/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">15+</div><div class="text-[10px] md:text-xs text-lp-blue uppercase font-bold">Призов</div></div>
+                     <div class="bg-lp-gold/10 p-4 clip-corner border border-lp-gold/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">100%</div><div class="text-[10px] md:text-xs text-lp-gold uppercase font-bold">Побед</div></div>
+                     <div class="bg-purple-500/10 p-4 clip-corner border border-purple-500/30 text-center"><div class="text-xl md:text-2xl text-purple-400 mb-1"><i class="fa-regular fa-gem"></i></div><div class="text-[10px] md:text-xs text-purple-400 uppercase font-bold">Алмазы</div></div>
+                     <div class="bg-green-500/10 p-4 clip-corner border border-green-500/30 text-center"><div class="text-xl md:text-2xl text-green-400 mb-1"><i class="fa-solid fa-users"></i></div><div class="text-[10px] md:text-xs text-green-400 uppercase font-bold">Привилегии</div></div>
+                </div>
+
+                <!-- 2. FORTUNE WHEEL - ПО ЦЕНТРУ -->
+                <div class="relative w-full max-w-[400px]">
+                    <div class="wheel-arrow"></div>
+                    <div class="wheel-container w-full"><div class="wheel" id="fortune-wheel"></div></div>
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-lp-gold rounded-full border-4 border-black shadow-lg z-20 flex items-center justify-center overflow-hidden rounded-full">
+                        <img src="img/LP_Logo.jpg" alt="Logo" class="w-full h-full object-cover">
                     </div>
                 </div>
-                <div class="order-1 lg:order-2 space-y-6">
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
-                        <h3 class="font-header text-2xl text-white uppercase mb-4 flex items-center gap-3"><i class="fa-solid fa-scroll text-lp-gold"></i> Правила Ивента</h3>
-                        <ul class="space-y-3 text-sm text-gray-300 list-disc list-inside">
-                            <li>Оплати участие <span class="text-lp-red font-bold">333 тг</span>.</li>
-                            <li>Получи <span class="text-lp-red font-bold">Код Доступа</span> в WhatsApp.</li>
-                            <li>Введи реальные <span class="text-lp-red font-bold">НИК И ИД</span>.</li>
-                            <li>Нажми <span class="text-lp-red font-bold">"Испытать Удачу"</span>.</li>
-                            <li>Приз будет выдан в течение <span class="text-lp-red font-bold">24 часов</span>.</li>
-                            <li>Обман карается <span class="text-lp-red font-bold">БАНОМ</span>.</li>
-                        </ul>
+
+                <!-- 3. FORM (ZAYAVKA) -->
+                <div id="fortune-controls" class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
+                    <div id="fortune-form-container">
+                        <h3 class="font-header text-xl text-white uppercase mb-4 text-center">Данные участника</h3>
+                        <form id="fortune-form" class="space-y-4">
+                            <input type="text" id="ff-nick" required placeholder="Ник в игре" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
+                            <input type="text" id="ff-id" required placeholder="ID Free Fire" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
+                            <div class="relative">
+                                <input type="text" id="access-code" required placeholder="Код доступа" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner pl-10">
+                                <i class="fa-solid fa-key absolute left-3 top-4 text-gray-500"></i>
+                            </div>
+                            <button type="submit" id="real-spin-btn" class="btn-premium w-full text-white font-header font-bold uppercase py-4 clip-corner border-lp-gold text-lp-gold hover:text-white">ИСПЫТАТЬ УДАЧУ</button>
+                            <p class="text-xs text-gray-500 text-center mt-2"><i class="fa-solid fa-triangle-exclamation text-lp-red"></i> 1 прокрутка на устройство</p>
+                        </form>
                     </div>
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/5">
-                        <h4 class="font-header text-lg text-white uppercase mb-3">Реквизиты <span class="text-lp-red font-bold">Kaspi Gold</span></h4>
-                        <div onclick="copyToClipboard('4400430220252026')" class="flex items-center justify-between bg-white/5 p-4 clip-corner mb-2 cursor-pointer hover:bg-white/10 transition-colors group">
-                            <span class="font-mono text-white text-lg md:text-xl font-black whitespace-nowrap select-none tracking-wider">4400 4302 2025 2026</span>
-                            <i class="fa-regular fa-copy text-gray-400 group-hover:text-white transition-colors text-xl"></i>
-                        </div>
-                        <p class="text-xs text-gray-400">В комментарии укажите НИК и ID.</p>
-                    </div>
-                    <!-- Mini Blocks -->
-                    <div class="grid grid-cols-2 gap-4">
-                         <div class="bg-lp-blue/10 p-4 clip-corner border border-lp-blue/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">15+</div><div class="text-[10px] md:text-xs text-lp-blue uppercase font-bold">Призов</div></div>
-                         <div class="bg-lp-gold/10 p-4 clip-corner border border-lp-gold/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">100%</div><div class="text-[10px] md:text-xs text-lp-gold uppercase font-bold">Побед</div></div>
-                         <div class="bg-purple-500/10 p-4 clip-corner border border-purple-500/30 text-center"><div class="text-xl md:text-2xl text-purple-400 mb-1"><i class="fa-regular fa-gem"></i></div><div class="text-[10px] md:text-xs text-purple-400 uppercase font-bold">Алмазы</div></div>
-                         <div class="bg-green-500/10 p-4 clip-corner border border-green-500/30 text-center"><div class="text-xl md:text-2xl text-green-400 mb-1"><i class="fa-solid fa-users"></i></div><div class="text-[10px] md:text-xs text-green-400 uppercase font-bold">Привилегии</div></div>
+                    <div id="fortune-result" class="hidden text-center">
+                        <h3 class="font-header text-2xl text-lp-gold uppercase mb-2">Поздравляем!</h3>
+                        <p class="text-gray-400 mb-4">Твой выигрыш:</p>
+                        <div id="prize-display" class="bg-white/10 p-4 clip-corner text-xl font-bold text-white mb-6 border border-lp-gold">???</div>
+                        <a id="whatsapp-btn" href="#" target="_blank" class="block w-full py-3 bg-[#25D366] text-white font-bold uppercase clip-corner hover:bg-[#128C7E] transition-colors mb-2 shadow-[0_0_15px_rgba(37,211,102,0.3)]">
+                            <i class="fa-brands fa-whatsapp mr-2 text-xl"></i> Отправить скриншот
+                        </a>
+                        <p class="text-xs text-gray-500 mb-4">Сделайте скриншот и отправьте администратору для получения.</p>
+                        <button onclick="resetFortune()" class="text-gray-400 underline hover:text-white text-sm">Крутить еще раз (Нужен новый код)</button>
                     </div>
                 </div>
+
+                <!-- 4. REQUISITES -->
+                <div class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/5">
+                    <h4 class="font-header text-lg text-white uppercase mb-3">Реквизиты <span class="text-lp-red font-bold">Kaspi Gold</span></h4>
+                    <div onclick="copyToClipboard('4400430220252026')" class="flex items-center justify-between bg-white/5 p-4 clip-corner mb-2 cursor-pointer hover:bg-white/10 transition-colors group">
+                        <span class="font-mono text-white text-lg md:text-xl font-black whitespace-nowrap select-none tracking-wider">4400 4302 2025 2026</span>
+                        <i class="fa-regular fa-copy text-gray-400 group-hover:text-white transition-colors text-xl"></i>
+                    </div>
+                    <p class="text-xs text-gray-400">В комментарии укажите НИК и ID.</p>
+                </div>
+
+                <!-- 5. RULES -->
+                <div class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
+                    <h3 class="font-header text-2xl text-white uppercase mb-4 flex items-center gap-3"><i class="fa-solid fa-scroll text-lp-gold"></i> Правила Ивента</h3>
+                    <ul class="space-y-3 text-sm text-gray-300 list-disc list-inside">
+                        <li>Оплати участие <span class="text-lp-red font-bold">333 тг</span>.</li>
+                        <li>Получи <span class="text-lp-red font-bold">Код Доступа</span> в WhatsApp.</li>
+                        <li>Введи реальные <span class="text-lp-red font-bold">НИК И ИД</span>.</li>
+                        <li>Нажми <span class="text-lp-red font-bold">"Испытать Удачу"</span>.</li>
+                        <li>Приз будет выдан в течение <span class="text-lp-red font-bold">24 часов</span>.</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
 
@@ -915,6 +1032,42 @@
         </div>
     </div>
 
+    <!-- NEW JOIN MODAL -->
+    <div id="join-modal" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
+        <div class="relative w-full max-w-md mx-6">
+            <div class="absolute inset-0 bg-lp-blue/5 blur-xl rounded-full"></div>
+            <div class="relative bg-lp-dark border border-white/10 p-8 clip-corner shadow-2xl">
+                <button onclick="closeJoinModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+                
+                <h3 class="font-header text-2xl text-white uppercase mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-file-signature text-lp-blue"></i> Вступление
+                </h3>
+                
+                <form id="join-form" class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] uppercase tracking-widest text-gray-500 ml-1">Имя</label>
+                        <input type="text" id="name" placeholder="Твое имя" class="w-full bg-black/50 border border-white/10 text-white p-3 text-sm focus:border-lp-blue focus:bg-black/80 transition-all outline-none clip-corner placeholder-gray-700 font-mono" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 ml-1">Возраст</label>
+                            <input type="number" id="age" placeholder="16+" class="w-full bg-black/50 border border-white/10 text-white p-3 text-sm focus:border-lp-blue focus:bg-black/80 transition-all outline-none clip-corner placeholder-gray-700 font-mono" required>
+                        </div>
+                        <div class="space-y-1">
+                             <label class="text-[10px] uppercase tracking-widest text-gray-500 ml-1">Связь</label>
+                            <input type="text" id="phone" placeholder="WhatsApp" class="w-full bg-black/50 border border-white/10 text-white p-3 text-sm focus:border-lp-blue focus:bg-black/80 transition-all outline-none clip-corner placeholder-gray-700 font-mono" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-premium w-full text-white font-header font-bold uppercase tracking-wider py-4 mt-6 clip-corner touch-manipulation hover:brightness-110 transition-all">
+                        Отправить заявку
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script>
         // === GLOBAL DATA ===
         // Generic Placeholder for everything
@@ -931,8 +1084,8 @@
         ];
 
         const wheelPrizes = [
-            { text: "100 💎", icon: "", color: "#E0F7FA", bgColor: "#00008B", label: "100 алмазов" },
-            { text: "300 💎", icon: "", color: "#E0F7FA", bgColor: "#1E90FF", label: "300 алмазов" },
+            { text: "100", icon: "", color: "#E0F7FA", bgColor: "#00008B", label: "100 алмазов" },
+            { text: "300", icon: "", color: "#E0F7FA", bgColor: "#1E90FF", label: "300 алмазов" },
             { text: "Ваучер", icon: "🎟", color: "#F3E5F5", bgColor: "#4B0082", label: "Недельный ваучер" },
             { text: "Проверка", icon: "🔍", color: "#FFF8E1", bgColor: "#B8860B", label: "Проверка аккаунта" },
             { text: "Fast Check", icon: "⚡", color: "#FFF3E0", bgColor: "#FF8C00", label: "Проверка без очереди" },
@@ -980,7 +1133,7 @@
                     segment.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
                     segment.style.color = prize.color;
                     segment.style.textShadow = `0 0 2px rgba(0,0,0,0.8)`; 
-                    segment.innerHTML = `<span class="mr-2">${prize.text}</span><span class="text-base">${prize.icon}</span>`;
+                    segment.innerHTML = `<span class="mr-2">${prize.text}</span>`;
                     wheel.appendChild(segment);
                 });
             }
@@ -1090,17 +1243,50 @@
             const tbody = document.getElementById('players-list-body');
             if(!tbody || tbody.children.length > 0) return;
             
-            const roles = ["Офицер", "Офицер", "Офицерка", "Лидер", "Вр. Лидер", "Пров", "Пров"];
-            const colors = ["text-rank-bronze", "text-rank-bronze", "text-rank-pink", "text-rank-gold", "text-rank-silver", "text-rank-purple", "text-rank-purple"];
-            const uids = ["813296733", "4387660092", "6329993639", "2331613212", "940020098", "8747162046", "1238666006"];
-            const nicks = ["Lost_Yuta", "Lost_Asad", "Lost_Asuna", "Lost_Kirito", "Lost_Silver", "Lost_Baki", "Lost_Isagi"];
+            // Defined players list (Elite + New additions)
+            const knownPlayers = [
+                { nick: "Lost_Yuta", uid: "813296733", role: "Офицер", color: "text-rank-bronze" },
+                { nick: "Lost_Asad", uid: "4387660092", role: "Офицер", color: "text-rank-bronze" },
+                { nick: "Lost_Asuna", uid: "6329993639", role: "Офицерка", color: "text-rank-pink" },
+                { nick: "Lost_Kirito", uid: "2331613212", role: "Лидер", color: "text-rank-gold" },
+                { nick: "Lost_Silver", uid: "940020098", role: "Вр. Лидер", color: "text-rank-silver" },
+                { nick: "Lost_Baki", uid: "8747162046", role: "Пров", color: "text-rank-purple" },
+                { nick: "Lost_Isagi", uid: "1238666006", role: "Пров", color: "text-rank-purple" },
+                // New additions
+                { nick: "Lost_Kurokoko", uid: "2430951865", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Sadx", uid: "6754937626", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Sayak", uid: "1062670491", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Fozzy", uid: "10934118661", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Medusa", uid: "911171900", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Hunter", uid: "6838771443", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Mayor", uid: "6926932831", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Makima", uid: "10967623507", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Kagami", uid: "2792056188", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Dream", uid: "8424375095", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Twizzi", uid: "2626966615", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Zako", uid: "8734226251", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Rainer", uid: "2903461078", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Argyn", uid: "336232242", role: "Игрок", color: "text-gray-400" }
+            ];
 
             let html = '';
             for(let i=1; i<=50; i++) { 
-                let role = i <= 7 ? roles[i-1] : "Игрок"; 
-                let color = i <= 7 ? colors[i-1] : "text-gray-400";
-                let nick = i <= 7 ? nicks[i-1] : `Lost_${Math.floor(Math.random() * 1000)}`;
-                let uid = i <= 7 ? uids[i-1] : "0";
+                const playerIndex = i - 1;
+                let player = knownPlayers[playerIndex];
+                
+                let nick, uid, role, color;
+                
+                if (player) {
+                    nick = player.nick;
+                    uid = player.uid;
+                    role = player.role;
+                    color = player.color;
+                } else {
+                    nick = "Lost_";
+                    uid = "0";
+                    role = "Игрок";
+                    color = "text-gray-400";
+                }
                 
                 html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td class="p-2 text-gray-500 font-mono text-xs">${i}</td>
@@ -1119,7 +1305,20 @@
             e.preventDefault();
             const form = e.target;
             const data = new FormData(form);
-            const msg = `Вызов на ${type}:\nГильдия: ${data.get('guildName')}\nID: ${data.get('guildId')}\nУровень: ${data.get('guildLevel') || '-'}\nWP: ${data.get('wpNumber')}`;
+            
+            let msg = `Вызов на ${type}:\n`;
+            
+            if (type === 'Проверка') {
+                msg += `Имя игрока: ${data.get('playerName')}\n`;
+                msg += `Уровень: ${data.get('playerLevel')}\n`;
+                msg += `Звание в КБ-БО: ${data.get('playerRank')}\n`;
+            } else {
+                msg += `Гильдия: ${data.get('guildName')}\n`;
+                msg += `ID: ${data.get('guildId')}\n`;
+                msg += `Уровень: ${data.get('guildLevel') || '-'}\n`;
+            }
+            
+            msg += `Номер: ${data.get('wpNumber')}`;
             window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
@@ -1173,6 +1372,23 @@
         function showAlert(msg) {
             document.getElementById('alert-msg').textContent = msg;
             document.getElementById('alert-modal').classList.remove('hidden');
+        }
+
+        // === JOIN MODAL LOGIC ===
+        function openJoinModal() {
+            const modal = document.getElementById('join-modal');
+            modal.classList.remove('hidden');
+            // Trigger reflow for transition
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+        }
+
+        function closeJoinModal() {
+            const modal = document.getElementById('join-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300); // Wait for transition
         }
 
         // === ROUTER ===
@@ -1230,6 +1446,11 @@
             
             window.addEventListener('resize', renderCoverflow);
 
+            // Close modal when clicking outside
+            document.getElementById('join-modal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('join-modal')) closeJoinModal();
+            });
+
             // WhatsApp Join Logic
             document.getElementById('join-form').addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -1239,6 +1460,7 @@
                 const msg = `Заявка в гильдию Lost Paradise:\nИмя: ${name}\nВозраст: ${age}\nСвязь: ${phone}`;
                 window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
                 e.target.reset();
+                closeJoinModal();
             });
 
             // Fortune Logic (Correct Right Alignment)
