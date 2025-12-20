@@ -1070,8 +1070,10 @@
 
     <script>
         // === GLOBAL DATA ===
-        // Generic Placeholder for everything
         const GENERIC_IMG = "img/LP_Logo.jpg";
+
+        // ТВОЯ ССЫЛКА НА ГУГЛ СКРИПТ (СВЯЗЬ С ТЕЛЕГРАМОМ)
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxY1EiS3MGrPF4SVcvkrTOGsmyXw9mvsJPDNJXkLwiKmRMdMXeD3G0BgvLkxr807yZC/exec"; 
 
         const elitePlayers = [
             { id: 1, nick: "Lost_Yuta", uid: "813296733", role: "Офицер", roleType: "bronze", img: GENERIC_IMG },
@@ -1099,7 +1101,7 @@
             { text: "Буст", icon: "🚀", color: "#FBE9E7", bgColor: "#A52A2A", label: "Буст Bo / K-D" }
         ];
 
-        let activeIndex = 3; // Start with Leader (Kirito is index 3)
+        let activeIndex = 3; 
 
         // === FUNCTIONS ===
         
@@ -1111,7 +1113,6 @@
             const numSegments = wheelPrizes.length;
             const segmentAngle = 360 / numSegments;
             
-            // Build Gradient (Starts at 0deg = 12 o'clock)
             let gradientStr = 'conic-gradient(';
             for(let i=0; i<numSegments; i++) {
                 gradientStr += `${wheelPrizes[i].bgColor} ${i*segmentAngle}deg ${(i+1)*segmentAngle}deg${i===numSegments-1?'':', '}`;
@@ -1123,13 +1124,7 @@
                 wheelPrizes.forEach((prize, i) => {
                     const segment = document.createElement('div');
                     segment.className = 'wheel-segment-content';
-                    
-                    // Rotation logic corrected:
-                    // 1. Calculate center angle of the segment (i * angle + half_angle)
-                    // 2. Subtract 90 degrees because HTML elements start at 3 o'clock (90deg), 
-                    //    but our gradient starts at 12 o'clock (0deg).
                     const rotation = (i * segmentAngle) + (segmentAngle / 2) - 90;
-                    
                     segment.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
                     segment.style.color = prize.color;
                     segment.style.textShadow = `0 0 2px rgba(0,0,0,0.8)`; 
@@ -1158,26 +1153,15 @@
                 const style = colors[player.roleType];
 
                 card.innerHTML = `
-                    <div class="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center">
-                        <!-- Placeholder Circle -->
-                    </div>
-                    
+                    <div class="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center"></div>
                     <div class="absolute top-1 right-3 z-10 font-header font-bold text-3xl text-black opacity-90" style="text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">
                         ${index+1}
                     </div>
-                    
                     <img src="${player.img}" class="avatar" alt="${player.nick}">
-                    
-                    <!-- 
-                       ИСПРАВЛЕНО: Градиент максимально компактный.
-                       pt-8: уменьшен верхний отступ (был 14)
-                       from-black/90 via-black/40: градиент быстрее становится прозрачным
-                    -->
                     <div class="absolute bottom-0 w-full px-3 pb-3 pt-8 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
                         <div class="font-header text-xl md:text-2xl text-white uppercase tracking-wider mb-1 cursor-pointer hover:text-lp-blue transition-colors flex items-center gap-2 group/nick" onclick="router.navigate('players'); event.stopPropagation()">
                             ${player.nick} <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-0 group-hover/nick:opacity-100 transition-opacity"></i>
                         </div>
-                        
                         <div class="flex justify-between items-center">
                             <div class="text-[10px] md:text-xs text-gray-300 font-mono cursor-pointer hover:text-white transition-colors flex items-center gap-1 active:text-green-400 group/id" onclick="copyToClipboard('${player.uid}'); event.stopPropagation()" title="Скопировать ID">
                                 ${player.uid} <i class="fa-regular fa-copy text-[8px] opacity-50 group-hover/id:opacity-100"></i>
@@ -1202,7 +1186,6 @@
                 let opacity = 1;
 
                 if (isActive) {
-                    // Центральная карта
                     transform = `translateX(0) scale(1.1) rotateY(0deg)`;
                 } else {
                     const isMobile = window.innerWidth < 768;
@@ -1211,7 +1194,6 @@
                     const scale = 1 - (absOffset * 0.25);
                     const rotate = offset * rotateAngle;
                     const translateX = offset * spacing;
-                    
                     transform = `translateX(${translateX}px) scale(${scale}) rotateY(${rotate}deg)`;
                     opacity = 1 - (absOffset * 0.2); 
                 }
@@ -1243,7 +1225,6 @@
             const tbody = document.getElementById('players-list-body');
             if(!tbody || tbody.children.length > 0) return;
             
-            // Defined players list (Elite + New additions)
             const knownPlayers = [
                 { nick: "Lost_Yuta", uid: "813296733", role: "Офицер", color: "text-rank-bronze" },
                 { nick: "Lost_Asad", uid: "4387660092", role: "Офицер", color: "text-rank-bronze" },
@@ -1252,7 +1233,6 @@
                 { nick: "Lost_Silver", uid: "940020098", role: "Вр. Лидер", color: "text-rank-silver" },
                 { nick: "Lost_Baki", uid: "8747162046", role: "Пров", color: "text-rank-purple" },
                 { nick: "Lost_Isagi", uid: "1238666006", role: "Пров", color: "text-rank-purple" },
-                // New additions
                 { nick: "Lost_Kurokoko", uid: "2430951865", role: "Игрок", color: "text-gray-400" },
                 { nick: "Lost_Sadx", uid: "6754937626", role: "Игрок", color: "text-gray-400" },
                 { nick: "Lost_Sayak", uid: "1062670491", role: "Игрок", color: "text-gray-400" },
@@ -1273,24 +1253,13 @@
             for(let i=1; i<=50; i++) { 
                 const playerIndex = i - 1;
                 let player = knownPlayers[playerIndex];
-                
-                let nick, uid, role, color;
-                
-                if (player) {
-                    nick = player.nick;
-                    uid = player.uid;
-                    role = player.role;
-                    color = player.color;
-                } else {
-                    nick = "Lost_";
-                    uid = "0";
-                    role = "Игрок";
-                    color = "text-gray-400";
-                }
+                let nick = player ? player.nick : "Lost_";
+                let uid = player ? player.uid : "0";
+                let role = player ? player.role : "Игрок";
+                let color = player ? player.color : "text-gray-400";
                 
                 html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td class="p-2 text-gray-500 font-mono text-xs">${i}</td>
-                    <!-- ИСПРАВЛЕНО: Возвращен шрифт font-header (Oswald) для ников -->
                     <td class="p-2 text-white font-header font-bold tracking-wide text-sm md:text-base">${nick}</td>
                     <td class="p-2 text-gray-400 font-mono text-xs flex items-center gap-1 cursor-pointer active:text-green-500" onclick="copyToClipboard('${uid}')">
                         ${uid} <i class="fa-regular fa-copy text-[10px]"></i>
@@ -1305,9 +1274,7 @@
             e.preventDefault();
             const form = e.target;
             const data = new FormData(form);
-            
             let msg = `Вызов на ${type}:\n`;
-            
             if (type === 'Проверка') {
                 msg += `Имя игрока: ${data.get('playerName')}\n`;
                 msg += `Уровень: ${data.get('playerLevel')}\n`;
@@ -1317,7 +1284,6 @@
                 msg += `ID: ${data.get('guildId')}\n`;
                 msg += `Уровень: ${data.get('guildLevel') || '-'}\n`;
             }
-            
             msg += `Номер: ${data.get('wpNumber')}`;
             window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
         }
@@ -1378,7 +1344,6 @@
         function openJoinModal() {
             const modal = document.getElementById('join-modal');
             modal.classList.remove('hidden');
-            // Trigger reflow for transition
             void modal.offsetWidth;
             modal.classList.remove('opacity-0');
         }
@@ -1386,9 +1351,7 @@
         function closeJoinModal() {
             const modal = document.getElementById('join-modal');
             modal.classList.add('opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300); // Wait for transition
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
         // === ROUTER ===
@@ -1429,8 +1392,39 @@
             }
         };
 
-        // === INIT ===
+        // === INIT (ГЛАВНЫЙ ЗАПУСК) ===
         document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. ПОЛУЧАЕМ НОВОСТЬ ИЗ ТЕЛЕГРАМА
+            fetch(SCRIPT_URL + "?action=getNews")
+            .then(r => r.text())
+            .then(text => {
+                // Если новость есть (и не выключена)
+                if (text && text !== "OFF" && text.trim() !== "") {
+                    const heroText = document.getElementById('hero-news-text');
+                    if (heroText) {
+                        heroText.innerHTML = text.replace(/\n/g, "<br>");
+                        
+                        // Делаем текст белым и ярким
+                        heroText.classList.remove('text-gray-300', 'font-light');
+                        heroText.classList.add('text-white', 'font-bold', 'text-lg', 'drop-shadow-md');
+                        
+                        // Меняем плашку "Сообщение от гильдии" -> "🔥 ВАЖНО"
+                        const container = heroText.closest('.plastic-wrap');
+                        if (container) {
+                            const label = container.querySelector('span.text-\\[8px\\]');
+                            if (label) {
+                                label.textContent = "🔥 ВАЖНАЯ ИНФОРМАЦИЯ";
+                                label.classList.remove('text-lp-blue');
+                                label.classList.add('text-lp-red');
+                            }
+                        }
+                    }
+                }
+            })
+            .catch(e => console.log("News Error:", e));
+
+            // АНИМАЦИИ
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
             }, { threshold: 0.1 });
@@ -1446,12 +1440,10 @@
             
             window.addEventListener('resize', renderCoverflow);
 
-            // Close modal when clicking outside
             document.getElementById('join-modal').addEventListener('click', (e) => {
                 if (e.target === document.getElementById('join-modal')) closeJoinModal();
             });
 
-            // WhatsApp Join Logic
             document.getElementById('join-form').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const name = document.getElementById('name').value;
@@ -1463,55 +1455,62 @@
                 closeJoinModal();
             });
 
-            // Fortune Logic (Correct Right Alignment)
-            document.getElementById('fortune-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const code = document.getElementById('access-code').value;
-                if (code.length < 4) { showAlert("Неверный код доступа!"); return; }
-                const btn = document.getElementById('real-spin-btn');
-                btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Крутим...';
-                const wheel = document.getElementById('fortune-wheel');
-                
-                // Logic for Right Alignment (90 deg)
-                // Arrow is at RIGHT (3 o'clock). In CSS conic gradient (starting at 12 o'clock), 3 o'clock is 90deg.
-                const randomPrizeIndex = Math.floor(Math.random() * wheelPrizes.length);
-                const segmentAngle = 360 / wheelPrizes.length;
-                
-                // Increase spins for visual effect (e.g. 5 to 10 full spins)
-                const extraSpins = 360 * (5 + Math.floor(Math.random() * 5)); 
-                
-                // Center of the prize segment (relative to 12 o'clock start)
-                const centerAngleOfPrize = (randomPrizeIndex * segmentAngle) + (segmentAngle / 2);
-                
-                // We want the wheel rotated such that 'centerAngleOfPrize' ends up at 90deg (Right).
-                // Final Position = Initial Position (centerAngle) + Rotation
-                // 90 = centerAngle + stopAngle
-                // stopAngle = 90 - centerAngle
-                
-                const stopAngle = extraSpins + (90 - centerAngleOfPrize); 
+            // 2. КОЛЕСО ФОРТУНЫ (ПРОВЕРКА КОДА ЧЕРЕЗ ТЕЛЕГРАМ)
+            const fortuneForm = document.getElementById('fortune-form');
+            if (fortuneForm) {
+                fortuneForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const codeInput = document.getElementById('access-code');
+                    const btn = document.getElementById('real-spin-btn');
+                    const code = codeInput.value.trim();
 
-                wheel.style.transform = `rotate(${stopAngle}deg)`;
+                    if (!code) { showAlert("Введите код!"); return; }
 
-                setTimeout(() => {
-                    const prizeObj = wheelPrizes[randomPrizeIndex];
-                    const prizeLabel = prizeObj.label; 
-                    localStorage.setItem('lp_fortune_spun', 'true');
-                    localStorage.setItem('lp_fortune_prize', prizeLabel);
-                    localStorage.setItem('lp_fortune_deg', stopAngle);
-                    
-                    document.getElementById('fortune-form-container').style.display = 'none';
-                    document.getElementById('fortune-result').classList.remove('hidden');
-                    
-                    document.getElementById('prize-display').textContent = prizeLabel;
-                    document.getElementById('prize-display').style.color = prizeObj.bgColor;
-                    document.getElementById('prize-display').style.borderColor = prizeObj.bgColor;
-                    
-                    updateWhatsAppLink(prizeLabel);
-                }, 4000); 
-            });
+                    btn.disabled = true; 
+                    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Проверка...';
+
+                    // ЗАПРОС К ГУГЛ ТАБЛИЦЕ
+                    fetch(SCRIPT_URL + "?code=" + encodeURIComponent(code))
+                    .then(r => r.text())
+                    .then(data => {
+                        if (data.trim() === "VALID") {
+                            // КОД ВЕРНЫЙ -> КРУТИМ
+                            const wheel = document.getElementById('fortune-wheel');
+                            const randomPrizeIndex = Math.floor(Math.random() * wheelPrizes.length);
+                            const segmentAngle = 360 / wheelPrizes.length;
+                            const extraSpins = 360 * (5 + Math.floor(Math.random() * 5)); 
+                            const centerAngleOfPrize = (randomPrizeIndex * segmentAngle) + (segmentAngle / 2);
+                            const stopAngle = extraSpins + (90 - centerAngleOfPrize); 
+
+                            wheel.style.transform = `rotate(${stopAngle}deg)`;
+
+                            setTimeout(() => {
+                                const prizeObj = wheelPrizes[randomPrizeIndex];
+                                document.getElementById('fortune-form-container').style.display = 'none';
+                                document.getElementById('fortune-result').classList.remove('hidden');
+                                document.getElementById('prize-display').textContent = prizeObj.label;
+                                document.getElementById('prize-display').style.color = prizeObj.bgColor;
+                                document.getElementById('prize-display').style.borderColor = prizeObj.bgColor;
+                                updateWhatsAppLink(prizeObj.label);
+                            }, 4000);
+
+                        } else if (data.trim() === "USED") {
+                            showAlert("Этот код уже использовали!");
+                            btn.disabled = false; btn.innerHTML = 'ИСПЫТАТЬ УДАЧУ';
+                        } else {
+                            showAlert("Неверный код доступа!");
+                            btn.disabled = false; btn.innerHTML = 'ИСПЫТАТЬ УДАЧУ';
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showAlert("Ошибка соединения");
+                        btn.disabled = false; btn.innerHTML = 'ИСПЫТАТЬ УДАЧУ';
+                    });
+                });
+            }
         });
-        
-
         
         function closeMenu() { document.getElementById('side-menu').classList.add('translate-x-full'); }
         function toggleAccordion(btn) { btn.parentElement.classList.toggle('accordion-active'); }
