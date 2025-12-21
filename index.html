@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Lost Paradise | Guild HQ</title>
     
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -33,7 +37,7 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         header: ['Oswald', 'sans-serif'],
-                        mono: ['Courier New', 'monospace'],
+                        mono: ['Courier New', 'monospace'], /* Added for tactical text */
                     },
                 }
             }
@@ -43,14 +47,17 @@
     <style>
         /* Global Styles */
         body {
-            background-color: #0b0b0d;
+            background-color: #0b0b0d; /* Темная, глубокая база (не #000) */
             color: #ffffff;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
+            
+            /* АТМОСФЕРНЫЙ ФОН */
             background-image: 
                 radial-gradient(ellipse at 50% -20%, rgba(30, 144, 255, 0.08) 0%, transparent 70%),
                 radial-gradient(circle at 90% 30%, rgba(168, 85, 247, 0.03) 0%, transparent 50%),
                 linear-gradient(to bottom, rgba(11, 11, 13, 0) 0%, rgba(11, 11, 13, 0.8) 100%);
+            
             background-attachment: fixed;
             background-size: cover;
         }
@@ -79,13 +86,15 @@
 
         .clip-corner { clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); }
 
-        /* PLASTIC / GLASS WRAP EFFECT */
+        /* PLASTIC / GLASS WRAP EFFECT (New) */
         .plastic-wrap {
             background: rgba(255, 255, 255, 0.015);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02), 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 
+                inset 0 0 20px rgba(255, 255, 255, 0.02),
+                0 10px 30px rgba(0, 0, 0, 0.5);
             position: relative;
         }
         .plastic-wrap::before {
@@ -180,6 +189,7 @@
 
     <div class="bg-grid-pattern"></div>
 
+    <!-- Navigation -->
     <header class="fixed top-0 w-full z-40 bg-black/90 backdrop-blur-lg border-b border-white/5" id="navbar">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3 cursor-pointer" onclick="router.navigate('home')">
@@ -192,6 +202,7 @@
         </div>
     </header>
 
+    <!-- Mobile Menu -->
     <div id="side-menu" class="fixed inset-0 z-[60] bg-black/95 transform translate-x-full transition-transform duration-300 flex flex-col justify-center items-start pl-8 md:pl-12 gap-8 backdrop-blur-xl">
         <button id="close-menu-btn" class="absolute top-6 right-6 text-white text-4xl hover:text-lp-blue transition-colors p-2"><i class="fa-solid fa-times"></i></button>
         <nav class="flex flex-col text-left gap-5 font-header uppercase tracking-widest font-bold overflow-y-auto max-h-[85vh] pr-4 w-full">
@@ -215,15 +226,19 @@
 
     <main class="min-h-screen">
         
+        <!-- PAGE: HOME -->
         <div id="page-home" class="page-section active pt-0 pb-0">
             
+            <!-- NEW COMPACT HERO SECTION -->
             <section class="relative pt-32 pb-16 flex flex-col items-center justify-center min-h-[50vh] overflow-hidden">
+                <!-- Background Decoration -->
                 <div class="absolute inset-0 z-0 pointer-events-none">
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-lp-blue/5 blur-[100px] rounded-full"></div>
                 </div>
 
                 <div class="relative z-10 container mx-auto px-6 flex flex-col items-center">
                     
+                    <!-- Compact Headers -->
                     <div class="text-center mb-10 fade-in-up">
                         <h4 class="text-xl md:text-2xl font-mono uppercase tracking-[0.2em] text-gray-500 mb-2">Welcome to</h4>
                         <h3 class="font-header text-2xl md:text-4xl font-bold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 drop-shadow-sm">
@@ -231,17 +246,25 @@
                         </h3>
                     </div>
 
+                    <!-- Plastic/Glass Wrap Container -->
                     <div class="plastic-wrap w-full max-w-[400px] p-6 clip-corner group fade-in-up" style="animation-delay: 0.1s;">
+                        
+                        <!-- Top Left Label -->
                         <div class="absolute top-3 left-3 flex items-center gap-2 opacity-80">
                             <div class="w-1 h-1 bg-lp-blue rounded-full animate-pulse"></div>
                             <span class="text-[8px] font-mono uppercase tracking-widest text-lp-blue">Сообщение от гильдии</span>
                         </div>
+
+                        <!-- Main Content -->
                         <div class="mt-4 pl-3 border-l border-white/20 relative z-10">
-                            <p id="hero-news-text" class="font-sans text-sm md:text-base text-gray-300 leading-relaxed text-left font-light">
+                            <p class="font-sans text-sm md:text-base text-gray-300 leading-relaxed text-left font-light">
                                 Мы запустили официальный сайт гильдии.<br>
                                 <span class="text-gray-500">Здесь будут события, решения и информация для своих.</span>
                             </p>
                         </div>
+
+
+                        <!-- Action Button (Centered at bottom) -->
                         <div class="flex justify-center mt-8">
                             <button onclick="openJoinModal()" class="relative overflow-hidden group/btn px-6 py-2 bg-white/5 border border-white/10 hover:border-lp-blue/50 hover:bg-lp-blue/10 transition-all duration-300 clip-corner">
                                 <span class="relative z-10 font-header text-xs font-bold uppercase tracking-widest text-white group-hover/btn:text-lp-blue transition-colors">Вступить в гильдию</span>
@@ -249,9 +272,11 @@
                             </button>
                         </div>
                     </div>
+
                 </div>
             </section>
 
+            <!-- About Guild (Animated Icons) -->
             <section id="about-section" class="py-20 border-y border-white/5 relative bg-black/20 backdrop-blur-sm">
                 <div class="container mx-auto px-6 relative z-10">
                     <div class="text-center mb-16 fade-in-up">
@@ -283,15 +308,22 @@
                 </div>
             </section>
 
+             <!-- Top Players (COVERFLOW CAROUSEL) -->
              <section id="elite-section" class="py-20 bg-transparent">
                 <div class="container mx-auto px-6 relative">
                     <div class="text-center mb-12 fade-in-up">
                         <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Элита Гильдии</h2>
                         <div class="h-1 w-24 bg-lp-blue mx-auto mt-4"></div>
                     </div>
+
+                    <!-- Coverflow Container -->
                     <div class="coverflow-scene fade-in-up">
-                        <div class="coverflow-list" id="coverflow-list"></div>
+                        <div class="coverflow-list" id="coverflow-list">
+                            <!-- Cards will be injected by JS -->
+                        </div>
                     </div>
+
+                    <!-- Button -->
                     <div class="mt-12 flex justify-center fade-in-up">
                         <button onclick="router.navigate('players')" class="text-lp-blue hover:text-white transition-colors uppercase font-header font-bold tracking-widest text-lg md:text-xl flex items-center gap-3 p-4 border border-white/5 hover:border-lp-blue bg-black/40 backdrop-blur clip-corner">
                             Показать всех игроков <i class="fa-solid fa-arrow-right"></i>
@@ -300,6 +332,7 @@
                 </div>
             </section>
 
+            <!-- Modes Section -->
             <section id="modes-section" class="py-20 container mx-auto px-6">
                 <div class="text-center mb-12 fade-in-up">
                     <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Игровые Режимы</h2>
@@ -333,6 +366,7 @@
                 </div>
             </section>
 
+            <!-- WHEEL PROMO (Correct Order) -->
             <section id="wheel-promo-section" class="py-20 container mx-auto px-6 overflow-hidden">
                 <div class="bg-black/30 backdrop-blur-md border border-lp-gold/30 p-8 clip-corner relative">
                     <div class="grid md:grid-cols-2 gap-8 items-center">
@@ -351,7 +385,7 @@
                         <div class="flex justify-center md:justify-end fade-in-up opacity-60 md:opacity-100 order-1 md:order-2">
                             <div class="wheel-container" style="width: 150px; height: 150px;">
                                 <div class="wheel wheel-decorative" id="decorative-wheel-bg"></div>
-                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-lp-gold rounded-full border-2 border-black z-20 flex items-center justify-center overflow-hidden rounded-full">
+                                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-lp-gold rounded-full border-2 border-black z-20 flex items-center justify-center overflow-hidden">
                                     <img src="img/LP_Logo.jpg" alt="Logo" class="w-full h-full object-cover">
                                 </div>
                             </div>
@@ -360,12 +394,14 @@
                 </div>
             </section>
 
+            <!-- FAQ -->
             <section id="faq-section" class="py-20 container mx-auto px-6 max-w-4xl">
                 <div class="text-center mb-12 fade-in-up">
                     <h2 class="font-header text-3xl md:text-4xl font-bold uppercase text-white">Частые Вопросы</h2>
                     <div class="h-1 w-24 bg-lp-blue mx-auto mt-4"></div>
                 </div>
                 <div class="space-y-4 fade-in-up">
+                    <!-- Q1 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Что представляет собой гильдия Lost Paradise?</span>
@@ -373,6 +409,7 @@
                         </button>
                         <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Lost Paradise — это активная гильдия, ориентированная на командную игру, развитие и комфортную атмосферу для участников.</div></div>
                     </div>
+                    <!-- Q2 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Есть ли в гильдии фан и общение?</span>
@@ -380,6 +417,7 @@
                         </button>
                         <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. Помимо игры, у гильдии есть активное общение вне матчей, включая фан-беседу для свободного общения и отдыха.</div></div>
                     </div>
+                    <!-- Q3 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Какая атмосфера внутри гильдии?</span>
@@ -387,6 +425,7 @@
                         </button>
                         <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">В гильдии поддерживается дружелюбная и уважительная атмосфера. Участники помогают друг другу и играют как одна команда.</div></div>
                     </div>
+                    <!-- Q4 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Проводятся ли совместные активности?</span>
@@ -394,6 +433,7 @@
                         </button>
                         <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. Мы регулярно играем мясо, участвуем в турнирах на 500 HP, проводим совместные игры и другие активности.</div></div>
                     </div>
+                    <!-- Q5 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Есть ли правила в гильдии?</span>
@@ -401,6 +441,7 @@
                         </button>
                         <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. В гильдии действуют правила, обязательные для всех участников. Они нужны для порядка и комфортной игры.</div></div>
                     </div>
+                    <!-- Q6 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Можно ли найти друзей в Lost Paradise?</span>
@@ -408,6 +449,7 @@
                         </button>
                         <div class="accordion-content"><div class="px-6 py-4 text-gray-400 border-t border-white/5 text-sm md:text-base">Да. Гильдия — это не только игра, но и сообщество, где легко найти друзей и постоянных тиммейтов.</div></div>
                     </div>
+                    <!-- Q7 -->
                     <div class="accordion-item bg-black/40 backdrop-blur-sm border border-white/5 clip-corner">
                         <button class="w-full px-6 py-4 flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
                             <span class="font-header text-base md:text-lg uppercase text-left">Можно ли покинуть гильдию?</span>
@@ -418,6 +460,7 @@
                 </div>
             </section>
 
+            <!-- Contact -->
             <section id="contact-section" class="py-10 md:py-20 border-t border-white/5 bg-transparent relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-t from-lp-blue/5 to-transparent pointer-events-none"></div>
                 <div class="container mx-auto px-6 relative z-10">
@@ -427,7 +470,8 @@
                     </div>
                     <div class="grid grid-cols-3 gap-2 md:gap-6 max-w-5xl mx-auto">
                         
-                        <a id="link_wa_card" href="https://wa.me/77473140807" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-[#25D366] transition-all duration-300 hover:-translate-y-2 fade-in-up">
+                        <!-- WhatsApp Card -->
+                        <a href="https://wa.me/77473140807" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-[#25D366] transition-all duration-300 hover:-translate-y-2 fade-in-up">
                             <div class="w-10 h-10 md:w-16 md:h-16 rounded-full bg-[#25D366]/10 flex items-center justify-center text-[#25D366] text-xl md:text-3xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-[#25D366] group-hover:text-white shadow-[0_0_20px_rgba(37,211,102,0.1)] group-hover:shadow-[0_0_20px_rgba(37,211,102,0.4)]">
                                 <i class="fa-brands fa-whatsapp"></i>
                             </div>
@@ -437,7 +481,8 @@
                             </div>
                         </a>
 
-                        <a id="link_tiktok" href="https://www.tiktok.com/@ls.ps79" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-white transition-all duration-300 hover:-translate-y-2 fade-in-up" style="animation-delay: 0.1s;">
+                        <!-- TikTok Card -->
+                        <a href="https://www.tiktok.com/@ls.ps79" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-white transition-all duration-300 hover:-translate-y-2 fade-in-up" style="animation-delay: 0.1s;">
                             <div class="w-10 h-10 md:w-16 md:h-16 rounded-full bg-white/10 flex items-center justify-center text-white text-xl md:text-3xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-white group-hover:text-black shadow-[0_0_20px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]">
                                 <i class="fa-brands fa-tiktok"></i>
                             </div>
@@ -447,7 +492,8 @@
                             </div>
                         </a>
 
-                        <a id="link_tg" href="https://t.me/telegram" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-[#0088cc] transition-all duration-300 hover:-translate-y-2 fade-in-up" style="animation-delay: 0.2s;">
+                        <!-- Telegram Card -->
+                        <a href="https://t.me/telegram" target="_blank" class="group relative bg-black/40 backdrop-blur-sm border border-white/10 p-2 md:p-6 clip-corner flex flex-col items-center justify-center gap-2 md:gap-4 hover:border-[#0088cc] transition-all duration-300 hover:-translate-y-2 fade-in-up" style="animation-delay: 0.2s;">
                             <div class="w-10 h-10 md:w-16 md:h-16 rounded-full bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc] text-xl md:text-3xl group-hover:scale-110 transition-transform duration-300 group-hover:bg-[#0088cc] group-hover:text-white shadow-[0_0_20px_rgba(0,136,204,0.1)] group-hover:shadow-[0_0_20px_rgba(0,136,204,0.4)]">
                                 <i class="fa-brands fa-telegram"></i>
                             </div>
@@ -461,9 +507,11 @@
             </section>
         </div>
 
+        <!-- PAGE: PLAYERS LIST -->
         <div id="page-players" class="page-section container mx-auto px-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
                 <div class="flex items-center gap-4 w-full">
+                    <!-- Standard Back Button -->
                     <button onclick="router.navigate('home', 'elite-section')" class="text-gray-400 hover:text-white transition-colors px-6 py-3 flex items-center gap-2 border border-white/10 hover:border-lp-blue hover:bg-lp-blue/10 clip-corner bg-black/40 font-header tracking-wider uppercase text-sm w-full md:w-auto justify-center">
                         <i class="fa-solid fa-arrow-left"></i> Назад
                     </button>
@@ -485,12 +533,14 @@
                             </tr>
                         </thead>
                         <tbody id="players-list-body">
-                            </tbody>
+                            <!-- JS Injected -->
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
+        <!-- PAGE: MODE KV -->
         <div id="page-mode-kv" class="page-section container mx-auto px-6">
              <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
                 <div class="flex items-center gap-4 w-full">
@@ -503,12 +553,13 @@
                 </div>
             </div>
             <div class="grid md:grid-cols-2 gap-6">
+                <!-- LEFT COLUMN: Settings & Forms -->
                 <div class="space-y-6">
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                         <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-blue pl-3">Настройка комнаты</h3>
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm text-left mode-table">
-                                <tr><th>Раунд</th><td><span id="kv_rounds">13</span> (Цель: <span id="kv_goal">7</span>)</td></tr>
+                                <tr><th>Раунд</th><td>13 (Цель: 7)</td></tr>
                                 <tr><th>Ставка</th><td>9950 монет / Бесплатно</td></tr>
                                 <tr><th>Патроны</th><td>Ограничений нет</td></tr>
                                 <tr><th>Метательные</th><td>Лимита нет</td></tr>
@@ -519,6 +570,7 @@
                         </div>
                     </div>
                     
+                    <!-- STANDARDIZED FORM (KV) -->
                      <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                         <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-blue pl-3">Заявка на вызов</h3>
                         <form onsubmit="submitChallenge(event, 'КВ')" class="space-y-4">
@@ -533,7 +585,7 @@
                     </div>
 
                      <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
-                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-blue pl-3">Реванш (<span id="kv_revanche">3333</span> тг)</h3>
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-blue pl-3">Реванш (3333 тг)</h3>
                         <form onsubmit="submitRevanche(event, 'КВ')" class="space-y-3">
                              <p class="text-xs text-gray-400">Прикрепите скриншот чека в WhatsApp после нажатия кнопки.</p>
                             <button type="submit" class="w-full py-2 bg-green-600 text-white font-bold clip-corner uppercase hover:bg-green-500 transition-colors">Запросить реванш</button>
@@ -542,12 +594,14 @@
                 </div>
 
                  <div class="space-y-6">
+                    <!-- Weapons -->
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
                         <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
                         <p class="text-sm text-gray-400">Desert Eagle, UMP, M1887</p>
                     </div>
 
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                    <!-- Skills -->
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
                         <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
                         <div class="text-sm text-gray-400 space-y-2">
                             <p><span class="text-lp-gold font-bold">Активные:</span> Только Алок</p>
@@ -556,6 +610,7 @@
                         </div>
                     </div>
 
+                    <!-- Allowed -->
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
                         <h3 class="font-header text-xl uppercase text-white mb-3">Разрешено</h3>
                         <ul class="text-sm text-gray-400 list-disc list-inside">
@@ -567,7 +622,8 @@
                         </ul>
                     </div>
                     
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                    <!-- Prohibited (TP) Updated -->
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
                         <h3 class="font-header text-xl uppercase text-white mb-3">ТП (Тех. Поражение)</h3>
                         <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
                             <li>Использование запрещенных навыков</li>
@@ -580,7 +636,8 @@
                         </ul>
                     </div>
 
-                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
+                    <!-- Logic & Proofs -->
+                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-blue/20">
                         <h3 class="font-header text-xl uppercase text-white mb-3">Порядок проведения</h3>
                         <div class="text-sm text-gray-400 space-y-2">
                              <p><b>1 комната:</b> создает команда, предложившая КВ.</p>
@@ -599,9 +656,11 @@
             </div>
         </div>
 
+        <!-- PAGE: MODE ZARUBA -->
         <div id="page-mode-zaruba" class="page-section container mx-auto px-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
                 <div class="flex items-center gap-4 w-full">
+                    <!-- STANDARDIZED BACK BUTTON (Same as KV) -->
                     <button onclick="router.navigate('home', 'modes-section')" class="text-gray-400 hover:text-white transition-colors px-6 py-3 flex items-center gap-2 border border-white/10 hover:border-lp-red hover:bg-lp-red/10 clip-corner bg-black/40 font-header tracking-wider uppercase text-sm w-full md:w-auto justify-center">
                         <i class="fa-solid fa-arrow-left"></i> Назад
                     </button>
@@ -611,12 +670,13 @@
                 </div>
             </div>
             <div class="grid md:grid-cols-2 gap-6">
+                <!-- LEFT COLUMN: Settings & Forms -->
                 <div class="space-y-6">
                    <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                         <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Настройка комнаты</h3>
                          <div class="overflow-x-auto">
                             <table class="w-full text-sm text-left mode-table">
-                                <tr><th>Раунд</th><td><span id="zaruba_rounds">7</span> (Цель: <span id="zaruba_goal">4</span>)</td></tr>
+                                <tr><th>Раунд</th><td>7 (Цель: 4)</td></tr>
                                 <tr><th>Урон</th><td>2 хэд / 2 тело</td></tr>
                                 <tr><th>Ставка</th><td>9950 монет / Бесплатно</td></tr>
                                 <tr><th>Патроны</th><td>Ограничений нет</td></tr>
@@ -627,6 +687,7 @@
                         </div>
                     </div>
 
+                    <!-- STANDARDIZED FORM (ZARUBA) -->
                      <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                         <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Заявка на вызов</h3>
                         <form onsubmit="submitChallenge(event, 'Заруба')" class="space-y-4">
@@ -641,7 +702,7 @@
                     </div>
 
                      <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
-                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Реванш (<span id="zaruba_revanche">3333</span> тг)</h3>
+                        <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Реванш (3333 тг)</h3>
                         <form onsubmit="submitRevanche(event, 'Заруба')" class="space-y-3">
                              <p class="text-xs text-gray-400">Прикрепите скриншот чека в WhatsApp после нажатия кнопки.</p>
                             <button type="submit" class="w-full py-2 bg-green-600 text-white font-bold clip-corner uppercase hover:bg-green-500 transition-colors">Запросить реванш</button>
@@ -649,6 +710,7 @@
                     </div>
                 </div>
 
+                 <!-- RIGHT COLUMN: Rules -->
                  <div class="space-y-6">
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
                         <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
@@ -692,9 +754,11 @@
             </div>
         </div>
 
+        <!-- PAGE: MODE PROVERKA -->
         <div id="page-mode-proverka" class="page-section container mx-auto px-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
                 <div class="flex items-center gap-4 w-full">
+                    <!-- STANDARDIZED BACK BUTTON -->
                     <button onclick="router.navigate('home', 'modes-section')" class="text-gray-400 hover:text-white transition-colors px-6 py-3 flex items-center gap-2 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 clip-corner bg-black/40 font-header tracking-wider uppercase text-sm w-full md:w-auto justify-center">
                         <i class="fa-solid fa-arrow-left"></i> Назад
                     </button>
@@ -705,8 +769,10 @@
             </div>
             
             <div class="grid md:grid-cols-2 gap-6">
+                 <!-- LEFT COLUMN (Now Rules): Rules Split (Ultimatum & SNS) -->
                  <div class="space-y-12">
                      
+                     <!-- ULTIMATUM MODE (Separated Blocks) -->
                      <div class="relative">
                         <div class="flex items-center gap-3 mb-4">
                             <h2 class="text-2xl font-header uppercase text-white">Ультиматум</h2>
@@ -714,6 +780,7 @@
                         </div>
                         
                         <div class="space-y-4">
+                            <!-- Settings -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                                 <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-red pl-3">Настройка</h3>
                                 <div class="overflow-x-auto">
@@ -728,11 +795,13 @@
                                 </div>
                             </div>
 
+                            <!-- Weapons -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
                                 <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
                                 <p class="text-sm text-gray-400">Desert Eagle, UMP</p>
                             </div>
 
+                            <!-- Skills -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
                                 <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
                                 <div class="text-sm text-gray-400 space-y-2">
@@ -741,6 +810,7 @@
                                 </div>
                             </div>
 
+                            <!-- TP -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-red/20">
                                 <h3 class="font-header text-xl uppercase text-white mb-3">ТП (Тех. Поражение)</h3>
                                 <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
@@ -752,6 +822,7 @@
                         </div>
                      </div>
 
+                     <!-- SNS MODE (Separated Blocks) -->
                      <div class="relative pt-8 border-t border-white/10">
                         <div class="flex items-center gap-3 mb-4">
                             <h2 class="text-2xl font-header uppercase text-white">СНС</h2>
@@ -759,6 +830,7 @@
                         </div>
                         
                         <div class="space-y-4">
+                            <!-- Settings -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                                 <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Настройка</h3>
                                 <div class="overflow-x-auto">
@@ -773,11 +845,13 @@
                                 </div>
                             </div>
 
+                            <!-- Weapons -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
                                 <h3 class="font-header text-xl uppercase text-white mb-3">Оружие</h3>
                                 <p class="text-sm text-gray-400">Desert Eagle, M1887</p>
                             </div>
 
+                            <!-- Skills -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
                                 <h3 class="font-header text-xl uppercase text-white mb-3">Навыки</h3>
                                 <div class="text-sm text-gray-400 space-y-2">
@@ -786,6 +860,7 @@
                                 </div>
                             </div>
 
+                            <!-- TP -->
                             <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
                                 <h3 class="font-header text-xl uppercase text-white mb-3">ТП (Тех. Поражение)</h3>
                                 <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
@@ -800,37 +875,43 @@
 
                 </div>
 
-                <div class="space-y-6">
+                <!-- RIGHT COLUMN (Now Pricing & Form): Form & Pricing -->
+                 <div class="space-y-6">
                     
+                    <!-- Pricing Buttons (Separate Blocks) -->
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                         <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Оплата</h3>
                          <div class="flex flex-col gap-4">
-                            <button onclick="payCheck('check')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
+                            <!-- Button 1 -->
+                            <button onclick="window.open('https://wa.me/77473140807?text=Привет,%20хочу%20оплатить%20Проверку%20(222%20тг)', '_blank')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
                                 <div>
                                     <div class="font-header uppercase text-white group-hover:text-lp-gold transition-colors text-lg">Standart</div>
                                     <div class="text-xs text-gray-500">Обычная очередь</div>
                                 </div>
-                                <span class="font-bold text-lp-gold text-xl"><span id="price_check">222</span> ₸</span>
+                                <span class="font-bold text-lp-gold text-xl">222 ₸</span>
                             </button>
                             
-                            <button onclick="payCheck('fast')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
+                            <!-- Button 2 -->
+                            <button onclick="window.open('https://wa.me/77473140807?text=Привет,%20хочу%20оплатить%20Проверку%20Без%20Очереди%20(444%20тг)', '_blank')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
                                 <div>
                                     <div class="font-header uppercase text-white group-hover:text-lp-gold transition-colors text-lg">Fast Check</div>
                                     <div class="text-xs text-gray-500">Без очереди</div>
                                 </div>
-                                <span class="font-bold text-lp-gold text-xl"><span id="price_fast">444</span> ₸</span>
+                                <span class="font-bold text-lp-gold text-xl">444 ₸</span>
                             </button>
 
-                            <button onclick="payCheck('invite')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
+                            <!-- Button 3 -->
+                            <button onclick="window.open('https://wa.me/77473140807?text=Привет,%20хочу%20купить%20Invite%20(999%20тг)', '_blank')" class="group relative w-full bg-white/5 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 p-4 clip-corner transition-all duration-300 flex justify-between items-center text-left">
                                 <div>
                                     <div class="font-header uppercase text-white group-hover:text-lp-gold transition-colors text-lg">Invite</div>
                                     <div class="text-xs text-gray-500">Без проверки</div>
                                 </div>
-                                <span class="font-bold text-lp-gold text-xl"><span id="price_invite">999</span> ₸</span>
+                                <span class="font-bold text-lp-gold text-xl">999 ₸</span>
                             </button>
                         </div>
                     </div>
 
+                    <!-- PROVERKA FORM -->
                     <div class="bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                         <h3 class="font-header text-xl uppercase text-white mb-4 border-l-4 border-lp-gold pl-3">Заявка на вызов</h3>
                         <form onsubmit="submitChallenge(event, 'Проверка')" class="space-y-4">
@@ -847,9 +928,11 @@
             </div>
         </div>
 
+        <!-- PAGE: FORTUNE -->
         <div id="page-fortune" class="page-section container mx-auto px-6 pb-20">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/10 pb-4">
                 <div class="flex items-center gap-4 w-full">
+                    <!-- STANDARDIZED BACK BUTTON (Gold hover for Fortune) -->
                     <button onclick="router.navigate('home', 'wheel-promo-section')" class="text-gray-400 hover:text-white transition-colors px-6 py-3 flex items-center gap-2 border border-white/10 hover:border-lp-gold hover:bg-lp-gold/10 clip-corner bg-black/40 font-header tracking-wider uppercase text-sm w-full md:w-auto justify-center">
                         <i class="fa-solid fa-arrow-left"></i> Назад
                     </button>
@@ -861,6 +944,7 @@
 
             <div class="flex flex-col items-center gap-8 max-w-4xl mx-auto">
                 
+                <!-- 1. 4 ADVANTAGES (Mini Blocks) - ТЕПЕРЬ СВЕРХУ -->
                 <div class="w-full grid grid-cols-2 md:grid-cols-4 gap-4">
                      <div class="bg-lp-blue/10 p-4 clip-corner border border-lp-blue/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">15+</div><div class="text-[10px] md:text-xs text-lp-blue uppercase font-bold">Призов</div></div>
                      <div class="bg-lp-gold/10 p-4 clip-corner border border-lp-gold/30 text-center"><div class="text-xl md:text-2xl font-bold text-white">100%</div><div class="text-[10px] md:text-xs text-lp-gold uppercase font-bold">Побед</div></div>
@@ -868,6 +952,7 @@
                      <div class="bg-green-500/10 p-4 clip-corner border border-green-500/30 text-center"><div class="text-xl md:text-2xl text-green-400 mb-1"><i class="fa-solid fa-users"></i></div><div class="text-[10px] md:text-xs text-green-400 uppercase font-bold">Привилегии</div></div>
                 </div>
 
+                <!-- 2. FORTUNE WHEEL - ПО ЦЕНТРУ -->
                 <div class="relative w-full max-w-[400px]">
                     <div class="wheel-arrow"></div>
                     <div class="wheel-container w-full"><div class="wheel" id="fortune-wheel"></div></div>
@@ -876,32 +961,21 @@
                     </div>
                 </div>
 
+                <!-- 3. FORM (ZAYAVKA) -->
                 <div id="fortune-controls" class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/10">
                     <div id="fortune-form-container">
                         <h3 class="font-header text-xl text-white uppercase mb-4 text-center">Данные участника</h3>
                         <form id="fortune-form" class="space-y-4">
-                            <div class="space-y-1">
-                                <label class="text-[10px] uppercase tracking-widest text-gray-500 ml-1">Твой Ник</label>
-                                <input type="text" id="ff-nick" required placeholder="Ник в игре" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none font-header tracking-wider">
+                            <input type="text" id="ff-nick" required placeholder="Ник в игре" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
+                            <input type="text" id="ff-id" required placeholder="ID Free Fire" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner">
+                            <div class="relative">
+                                <input type="text" id="access-code" required placeholder="Код доступа" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner pl-10">
+                                <i class="fa-solid fa-key absolute left-3 top-4 text-gray-500"></i>
                             </div>
-                            <div class="space-y-1">
-                                <label class="text-[10px] uppercase tracking-widest text-gray-500 ml-1">Твой ID</label>
-                                <input type="number" id="ff-id" required placeholder="12345678" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner focus:border-lp-gold transition-colors outline-none font-mono">
-                            </div>
-                            <div class="space-y-1">
-                                <label class="text-[10px] uppercase tracking-widest text-gray-500 ml-1">Код Доступа</label>
-                                <div class="relative">
-                                    <input type="text" id="access-code" required placeholder="Введи код" class="w-full bg-black/60 border border-gray-700 text-white p-3 clip-corner pl-10 focus:border-lp-gold transition-colors outline-none font-mono uppercase">
-                                    <i class="fa-solid fa-key absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
-                                </div>
-                            </div>
-                            <button type="submit" id="real-spin-btn" class="btn-premium w-full text-white font-header font-bold uppercase py-4 clip-corner border-lp-gold text-lp-gold hover:text-white mt-2">
-                                ИСПЫТАТЬ УДАЧУ
-                            </button>
-                            <p class="text-xs text-gray-500 text-center mt-2"><i class="fa-solid fa-triangle-exclamation text-lp-red"></i> 1 прокрутка на код</p>
+                            <button type="submit" id="real-spin-btn" class="btn-premium w-full text-white font-header font-bold uppercase py-4 clip-corner border-lp-gold text-lp-gold hover:text-white">ИСПЫТАТЬ УДАЧУ</button>
+                            <p class="text-xs text-gray-500 text-center mt-2"><i class="fa-solid fa-triangle-exclamation text-lp-red"></i> 1 прокрутка на устройство</p>
                         </form>
                     </div>
-
                     <div id="fortune-result" class="hidden text-center">
                         <h3 class="font-header text-2xl text-lp-gold uppercase mb-2">Поздравляем!</h3>
                         <p class="text-gray-400 mb-4">Твой выигрыш:</p>
@@ -914,19 +988,22 @@
                     </div>
                 </div>
 
+                <!-- 4. REQUISITES -->
                 <div class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-white/5">
                     <h4 class="font-header text-lg text-white uppercase mb-3">Реквизиты <span class="text-lp-red font-bold">Kaspi Gold</span></h4>
-                    <div id="copy-card-btn" class="flex items-center justify-between bg-white/5 p-4 clip-corner mb-2 cursor-pointer hover:bg-white/10 transition-colors group">
-                        <span id="card_number" class="font-mono text-white text-lg md:text-xl font-black whitespace-nowrap select-none tracking-wider">4400 4302 2025 2026</span>
+                    <div onclick="copyToClipboard('4400430220252026')" class="flex items-center justify-between bg-white/5 p-4 clip-corner mb-2 cursor-pointer hover:bg-white/10 transition-colors group">
+                        <span class="font-mono text-white text-lg md:text-xl font-black whitespace-nowrap select-none tracking-wider">4400 4302 2025 2026</span>
                         <i class="fa-regular fa-copy text-gray-400 group-hover:text-white transition-colors text-xl"></i>
                     </div>
                     <p class="text-xs text-gray-400 mb-4">В комментарии укажите НИК и ID.</p>
                     
-                    <a onclick="payCheck('fortune')" href="#" class="block w-full py-3 bg-[#f14635] text-white font-header font-bold uppercase text-center clip-corner hover:bg-[#d03a2b] transition-colors shadow-[0_0_15px_rgba(241,70,53,0.3)]">
-                        <i class="fa-brands fa-whatsapp mr-2"></i> Оплатить <span id="price_event">333</span> ₸
+                    <!-- Kaspi Style Button -->
+                    <a href="https://wa.me/77473140807?text=Привет,%20хочу%20оплатить%20участие%20в%20Колесе%20Фортуны%20(333%20тг)" target="_blank" class="block w-full py-3 bg-[#f14635] text-white font-header font-bold uppercase text-center clip-corner hover:bg-[#d03a2b] transition-colors shadow-[0_0_15px_rgba(241,70,53,0.3)]">
+                        <i class="fa-brands fa-whatsapp mr-2"></i> Оплатить 333 ₸
                     </a>
                 </div>
 
+                <!-- 5. RULES -->
                 <div class="w-full max-w-md bg-black/40 backdrop-blur-md p-6 clip-corner border border-lp-gold/20">
                     <h3 class="font-header text-2xl text-white uppercase mb-4 flex items-center gap-3"><i class="fa-solid fa-scroll text-lp-gold"></i> Правила Ивента</h3>
                     <ul class="space-y-3 text-sm text-gray-300 list-disc list-inside">
@@ -943,13 +1020,15 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="bg-black/80 backdrop-blur-md py-2 border-t border-white/10">
         <div class="container mx-auto px-4 flex flex-row justify-between items-center gap-2">
-            <h2 class="font-header text-lg md:text-2xl uppercase font-bold text-white"><span id="footer_id">3073988741</span></h2>
+            <h2 class="font-header text-lg md:text-2xl uppercase font-bold text-white">3073988741</h2>
             <p class="text-gray-600 text-[10px] md:text-sm text-right leading-tight">© 2025 Все права защищены <br>Разработка и дизайн: SunQai</p>
         </div>
     </footer>
 
+    <!-- Modals -->
     <div id="alert-modal" class="fixed inset-0 z-[80] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
         <div class="bg-lp-dark border border-lp-red p-6 clip-corner max-w-xs w-[90%] text-center">
             <i class="fa-solid fa-ban text-lp-red text-4xl mb-4"></i>
@@ -958,6 +1037,7 @@
         </div>
     </div>
 
+    <!-- NEW JOIN MODAL -->
     <div id="join-modal" class="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-md hidden transition-opacity duration-300 opacity-0">
         <div class="relative w-full max-w-md mx-6">
             <div class="absolute inset-0 bg-lp-blue/5 blur-xl rounded-full"></div>
@@ -965,9 +1045,11 @@
                 <button onclick="closeJoinModal()" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
                     <i class="fa-solid fa-times text-xl"></i>
                 </button>
+                
                 <h3 class="font-header text-2xl text-white uppercase mb-6 flex items-center gap-2">
                     <i class="fa-solid fa-file-signature text-lp-blue"></i> Вступление
                 </h3>
+                
                 <form id="join-form" class="space-y-4">
                     <div class="space-y-1">
                         <label class="text-[10px] uppercase tracking-widest text-gray-500 ml-1">Имя</label>
@@ -992,160 +1074,437 @@
     </div>
 
     <script>
-        // === НАСТРОЙКИ ===
+        // === GLOBAL DATA ===
         const GENERIC_IMG = "img/LP_Logo.jpg";
+
+        // ТВОЯ ССЫЛКА НА ГУГЛ СКРИПТ (СВЯЗЬ С ТЕЛЕГРАМОМ)
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxY1EiS3MGrPF4SVcvkrTOGsmyXw9mvsJPDNJXkLwiKmRMdMXeD3G0BgvLkxr807yZC/exec"; 
+
+        const elitePlayers = [
+            { id: 1, nick: "Lost_Yuta", uid: "813296733", role: "Офицер", roleType: "bronze", img: GENERIC_IMG },
+            { id: 2, nick: "Lost_Asad", uid: "4387660092", role: "Офицер", roleType: "bronze", img: GENERIC_IMG },
+            { id: 3, nick: "Lost_Asuna", uid: "6329993639", role: "Офицерка", roleType: "pink", img: GENERIC_IMG },
+            { id: 4, nick: "Lost_Kirito", uid: "2331613212", role: "Лидер", roleType: "gold", img: GENERIC_IMG },
+            { id: 5, nick: "Lost_Silver", uid: "940020098", role: "Вр. Лидер", roleType: "silver", img: GENERIC_IMG },
+            { id: 6, nick: "Lost_Baki", uid: "8747162046", role: "Пров", roleType: "purple", img: GENERIC_IMG },
+            { id: 7, nick: "Lost_Isagi", uid: "1238666006", role: "Пров", roleType: "purple", img: GENERIC_IMG }
+        ];
+
+        const wheelPrizes = [
+            { text: "100", icon: "", color: "#E0F7FA", bgColor: "#00008B", label: "100 алмазов" },
+            { text: "300", icon: "", color: "#E0F7FA", bgColor: "#1E90FF", label: "300 алмазов" },
+            { text: "Ваучер", icon: "🎟", color: "#F3E5F5", bgColor: "#4B0082", label: "Недельный ваучер" },
+            { text: "Проверка", icon: "🔍", color: "#FFF8E1", bgColor: "#B8860B", label: "Проверка аккаунта" },
+            { text: "Fast Check", icon: "⚡", color: "#FFF3E0", bgColor: "#FF8C00", label: "Проверка без очереди" },
+            { text: "Друзья", icon: "🤝", color: "#E1F5FE", bgColor: "#008B8B", label: "Добавить в друзья" },
+            { text: "PvP 1x1", icon: "⚔️", color: "#E1F5FE", bgColor: "#4682B4", label: "Матч 1vs1" },
+            { text: "500 HP", icon: "🛡️", color: "#E1F5FE", bgColor: "#5F9EA0", label: "Игра 500 HP" },
+            { text: "Squad", icon: "👥", color: "#E1F5FE", bgColor: "#2F4F4F", label: "Приглашение всей команды" },
+            { text: "Invite", icon: "🏰", color: "#E3F2FD", bgColor: "#0000CD", label: "Вступление без проверки" },
+            { text: "500 ₸", icon: "💰", color: "#E8F5E9", bgColor: "#006400", label: "500 ₸" },
+            { text: "Оценка", icon: "📊", color: "#FFEBEE", bgColor: "#8B0000", label: "Оценка аккаунта" },
+            { text: "Буст", icon: "🚀", color: "#FBE9E7", bgColor: "#A52A2A", label: "Буст Bo / K-D" }
+        ];
+
+        let activeIndex = 3; 
+
+        // === FUNCTIONS ===
         
-        let wheelPrizes = []; 
-        let elitePlayers = []; 
-        let siteSettings = {};
-
-        // === ГЛАВНЫЙ ЗАПУСК ===
-        document.addEventListener('DOMContentLoaded', () => {
+        function buildWheel(elementId, withText = true) {
+            const wheel = document.getElementById(elementId);
+            if(!wheel) return;
             
-            // 1. ЗАГРУЗКА ДАННЫХ ИЗ ТАБЛИЦЫ
-            fetch(SCRIPT_URL + "?action=getAllData")
-            .then(r => r.json())
-            .then(data => {
-                console.log("Data loaded:", data);
+            wheel.innerHTML = '';
+            const numSegments = wheelPrizes.length;
+            const segmentAngle = 360 / numSegments;
+            
+            let gradientStr = 'conic-gradient(';
+            for(let i=0; i<numSegments; i++) {
+                gradientStr += `${wheelPrizes[i].bgColor} ${i*segmentAngle}deg ${(i+1)*segmentAngle}deg${i===numSegments-1?'':', '}`;
+            }
+            gradientStr += ')';
+            wheel.style.background = gradientStr;
+            
+            if(withText) {
+                wheelPrizes.forEach((prize, i) => {
+                    const segment = document.createElement('div');
+                    segment.className = 'wheel-segment-content';
+                    const rotation = (i * segmentAngle) + (segmentAngle / 2) - 90;
+                    segment.style.transform = `translateY(-50%) rotate(${rotation}deg)`;
+                    segment.style.color = prize.color;
+                    segment.style.textShadow = `0 0 2px rgba(0,0,0,0.8)`; 
+                    segment.innerHTML = `<span class="mr-2">${prize.text}</span>`;
+                    wheel.appendChild(segment);
+                });
+            }
+        }
 
-                // А. ПРИМЕНЯЕМ НАСТРОЙКИ (ЦЕНЫ, ТЕЛЕФОНЫ)
-                if(data.settings) {
-                    siteSettings = data.settings;
-                    applySettings(data.settings);
-                }
+        function renderCoverflow() {
+            const container = document.getElementById('coverflow-list');
+            if(!container) return;
+            container.innerHTML = '';
 
-                // Б. НОВОСТИ
-                if (data.news && data.news !== "OFF") {
-                      const h = document.getElementById('hero-news-text');
-                      if(h) {
-                          h.innerHTML = data.news.replace(/\n/g, "<br>");
-                          h.classList.add('text-white', 'font-bold', 'text-lg', 'drop-shadow-md');
-                          // Меняем плашку
-                          const container = h.closest('.plastic-wrap');
-                          if(container) {
-                              const label = container.querySelector('span.text-\\[8px\\]');
-                              if(label) {
-                                  label.textContent = "🔥 ВАЖНАЯ ИНФОРМАЦИЯ";
-                                  label.classList.remove('text-lp-blue');
-                                  label.classList.add('text-lp-red');
-                              }
-                          }
-                      }
-                }
+            elitePlayers.forEach((player, index) => {
+                const card = document.createElement('div');
+                card.className = 'player-card';
+                
+                const colors = {
+                    gold: { border: '#FFD700', text: 'text-rank-gold', shadow: '0 0 20px rgba(255, 215, 0, 0.4)' },
+                    silver: { border: '#E5E7EB', text: 'text-rank-silver', shadow: '0 0 15px rgba(229, 231, 235, 0.3)' },
+                    bronze: { border: '#CD7F32', text: 'text-rank-bronze', shadow: '0 0 15px rgba(205, 127, 50, 0.3)' },
+                    purple: { border: '#A855F7', text: 'text-rank-purple', shadow: '0 0 15px rgba(168, 85, 247, 0.3)' },
+                    pink: { border: '#FF69B4', text: 'text-rank-pink', shadow: '0 0 15px rgba(255, 105, 180, 0.3)' } 
+                };
+                const style = colors[player.roleType];
 
-                // В. ИГРОКИ (ЕСЛИ ЕСТЬ В ТАБЛИЦЕ - ЗАМЕНЯЕМ ТЕХ ЧТО В HTML)
-                if (data.players && data.players.length > 0) {
-                    elitePlayers = data.players.map((p, i) => ({
-                        id: i+1, nick: p.nick, uid: p.uid, role: p.role, roleType: p.roleType, img: GENERIC_IMG
-                    }));
-                    // Перерисовываем карусель и список
-                    renderCoverflow(); 
-                    renderPlayers();   
+                card.innerHTML = `
+                    <div class="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center"></div>
+                    <div class="absolute top-1 right-3 z-10 font-header font-bold text-3xl text-black opacity-90" style="text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">
+                        ${index+1}
+                    </div>
+                    <img src="${player.img}" class="avatar" alt="${player.nick}">
+                    <div class="absolute bottom-0 w-full px-3 pb-3 pt-8 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
+                        <div class="font-header text-xl md:text-2xl text-white uppercase tracking-wider mb-1 cursor-pointer hover:text-lp-blue transition-colors flex items-center gap-2 group/nick" onclick="router.navigate('players'); event.stopPropagation()">
+                            ${player.nick} <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-0 group-hover/nick:opacity-100 transition-opacity"></i>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="text-[10px] md:text-xs text-gray-300 font-mono cursor-pointer hover:text-white transition-colors flex items-center gap-1 active:text-green-400 group/id" onclick="copyToClipboard('${player.uid}'); event.stopPropagation()" title="Скопировать ID">
+                                ${player.uid} <i class="fa-regular fa-copy text-[8px] opacity-50 group-hover/id:opacity-100"></i>
+                            </div>
+                            <div class="font-bold uppercase text-[9px] md:text-[10px] ${style.text} tracking-widest border border-current px-1.5 py-0.5 rounded">
+                                ${player.role}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const offset = index - activeIndex;
+                const absOffset = Math.abs(offset);
+                const isActive = offset === 0;
+
+                card.style.borderColor = isActive ? style.border : 'rgba(255,255,255,0.1)';
+                card.style.borderWidth = isActive ? '2px' : '1px';
+                if(isActive) card.style.boxShadow = style.shadow;
+
+                let transform = '';
+                let zIndex = 10 - absOffset;
+                let opacity = 1;
+
+                if (isActive) {
+                    transform = `translateX(0) scale(1.1) rotateY(0deg)`;
                 } else {
-                    // Если таблица пустая - собираем элиту вручную для карусели (чтобы крутилась)
-                    // (Здесь можно оставить пустой массив, тогда карусель просто не появится пока нет данных)
+                    const isMobile = window.innerWidth < 768;
+                    const spacing = isMobile ? 120 : 190; 
+                    const rotateAngle = isMobile ? -10 : -20;
+                    const scale = 1 - (absOffset * 0.25);
+                    const rotate = offset * rotateAngle;
+                    const translateX = offset * spacing;
+                    transform = `translateX(${translateX}px) scale(${scale}) rotateY(${rotate}deg)`;
+                    opacity = 1 - (absOffset * 0.2); 
                 }
 
-                // Г. ПРИЗЫ КОЛЕСА
-                if (siteSettings.wheel_prizes) {
-                    const prizeNames = siteSettings.wheel_prizes.split(',');
-                    const colors = ["#00008B", "#1E90FF", "#4B0082", "#B8860B", "#FF8C00", "#008B8B", "#4682B4", "#5F9EA0", "#2F4F4F", "#0000CD", "#006400", "#8B0000", "#A52A2A"];
-                    wheelPrizes = prizeNames.map((name, i) => ({
-                        text: name.length > 10 ? "..." : name,
-                        label: name.trim(),
-                        color: "#fff",
-                        bgColor: colors[i % colors.length]
-                    }));
-                    buildWheel('decorative-wheel-bg', false);
-                    buildWheel('fortune-wheel', true);
+                card.style.transform = transform;
+                card.style.zIndex = zIndex;
+                card.style.opacity = Math.max(opacity, 0);
+
+                card.onclick = () => {
+                    activeIndex = index;
+                    renderCoverflow();
+                };
+
+                container.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            try { document.execCommand('copy'); } catch (err) { console.error('Copy failed', err); }
+            document.body.removeChild(textArea);
+        }
+
+        function renderPlayers() {
+            const tbody = document.getElementById('players-list-body');
+            if(!tbody || tbody.children.length > 0) return;
+            
+            const knownPlayers = [
+                { nick: "Lost_Yuta", uid: "813296733", role: "Офицер", color: "text-rank-bronze" },
+                { nick: "Lost_Asad", uid: "4387660092", role: "Офицер", color: "text-rank-bronze" },
+                { nick: "Lost_Asuna", uid: "6329993639", role: "Офицерка", color: "text-rank-pink" },
+                { nick: "Lost_Kirito", uid: "2331613212", role: "Лидер", color: "text-rank-gold" },
+                { nick: "Lost_Silver", uid: "940020098", role: "Вр. Лидер", color: "text-rank-silver" },
+                { nick: "Lost_Baki", uid: "8747162046", role: "Пров", color: "text-rank-purple" },
+                { nick: "Lost_Isagi", uid: "1238666006", role: "Пров", color: "text-rank-purple" },
+                { nick: "Lost_Kurokoko", uid: "2430951865", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Sadx", uid: "6754937626", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Sayak", uid: "1062670491", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Fozzy", uid: "10934118661", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Medusa", uid: "911171900", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Hunter", uid: "6838771443", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Mayor", uid: "6926932831", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Makima", uid: "10967623507", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Kagami", uid: "2792056188", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Dream", uid: "8424375095", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Twizzi", uid: "2626966615", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Zako", uid: "8734226251", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Rainer", uid: "2903461078", role: "Игрок", color: "text-gray-400" },
+                { nick: "Lost_Argyn", uid: "336232242", role: "Игрок", color: "text-gray-400" }
+            ];
+
+            let html = '';
+            for(let i=1; i<=50; i++) { 
+                const playerIndex = i - 1;
+                let player = knownPlayers[playerIndex];
+                let nick = player ? player.nick : "Lost_";
+                let uid = player ? player.uid : "0";
+                let role = player ? player.role : "Игрок";
+                let color = player ? player.color : "text-gray-400";
+                
+                html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
+                    <td class="p-2 text-gray-500 font-mono text-xs">${i}</td>
+                    <td class="p-2 text-white font-header font-bold tracking-wide text-sm md:text-base">${nick}</td>
+                    <td class="p-2 text-gray-400 font-mono text-xs flex items-center gap-1 cursor-pointer active:text-green-500" onclick="copyToClipboard('${uid}')">
+                        ${uid} <i class="fa-regular fa-copy text-[10px]"></i>
+                    </td>
+                    <td class="p-2 uppercase text-xs font-bold ${color}">${role}</td>
+                </tr>`; 
+            }
+            tbody.innerHTML = html;
+        }
+
+        function submitChallenge(e, type) {
+            e.preventDefault();
+            const form = e.target;
+            const data = new FormData(form);
+            let msg = `Вызов на ${type}:\n`;
+            if (type === 'Проверка') {
+                msg += `Имя игрока: ${data.get('playerName')}\n`;
+                msg += `Уровень: ${data.get('playerLevel')}\n`;
+                msg += `Звание в КБ-БО: ${data.get('playerRank')}\n`;
+            } else {
+                msg += `Гильдия: ${data.get('guildName')}\n`;
+                msg += `ID: ${data.get('guildId')}\n`;
+                msg += `Уровень: ${data.get('guildLevel') || '-'}\n`;
+            }
+            msg += `Номер: ${data.get('wpNumber')}`;
+            window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function submitRevanche(e, type) {
+            e.preventDefault();
+            const msg = `Запрос на реванш (${type}). Чек оплаты прикреплю следом.`;
+            window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function initFortunePage() {
+            buildWheel('fortune-wheel', true);
+            buildWheel('decorative-wheel-bg', false);
+
+            const hasSpun = localStorage.getItem('lp_fortune_spun');
+            const formContainer = document.getElementById('fortune-form-container');
+            const resultContainer = document.getElementById('fortune-result');
+            const prizeDisplay = document.getElementById('prize-display');
+
+            if (hasSpun) {
+                formContainer.style.display = 'none';
+                resultContainer.classList.remove('hidden');
+                const savedPrize = localStorage.getItem('lp_fortune_prize') || "Ошибка";
+                prizeDisplay.textContent = savedPrize;
+                updateWhatsAppLink(savedPrize);
+                const savedDeg = localStorage.getItem('lp_fortune_deg') || 0;
+                document.getElementById('fortune-wheel').style.transform = `rotate(${savedDeg}deg)`;
+            } else {
+                formContainer.style.display = 'block';
+                resultContainer.classList.add('hidden');
+                document.getElementById('fortune-wheel').style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        function resetFortune() {
+            localStorage.removeItem('lp_fortune_spun');
+            document.getElementById('fortune-result').classList.add('hidden');
+            document.getElementById('fortune-form-container').style.display = 'block';
+            document.getElementById('fortune-wheel').style.transform = 'rotate(0deg)';
+            document.getElementById('fortune-form').reset();
+            document.getElementById('real-spin-btn').disabled = false;
+            document.getElementById('real-spin-btn').innerHTML = 'ИСПЫТАТЬ УДАЧУ';
+        }
+
+        function updateWhatsAppLink(prizeName) {
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const adminPhone = "+77473140807"; 
+            const msg = encodeURIComponent(`Привет! Я выиграл приз в колесе фортуны: ${prizeName}. Вот мой скриншот.`);
+            whatsappBtn.href = `https://wa.me/${adminPhone}?text=${msg}`;
+        }
+
+        function showAlert(msg) {
+            document.getElementById('alert-msg').textContent = msg;
+            document.getElementById('alert-modal').classList.remove('hidden');
+        }
+
+        // === JOIN MODAL LOGIC ===
+        function openJoinModal() {
+            const modal = document.getElementById('join-modal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+        }
+
+        function closeJoinModal() {
+            const modal = document.getElementById('join-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        // === ROUTER ===
+        const router = {
+            pages: {
+                home: document.getElementById('page-home'),
+                players: document.getElementById('page-players'),
+                fortune: document.getElementById('page-fortune'),
+                modeKv: document.getElementById('page-mode-kv'),
+                modeZaruba: document.getElementById('page-mode-zaruba'),
+                modeProverka: document.getElementById('page-mode-proverka')
+            },
+            navigate(route, targetId = null) {
+                window.scrollTo(0,0);
+                Object.values(this.pages).forEach(p => { 
+                    if(p) { p.classList.remove('active'); p.style.display = 'none'; }
+                });
+
+                if (route === 'home') {
+                    this.pages.home.style.display = 'block';
+                    requestAnimationFrame(() => {
+                        this.pages.home.classList.add('active');
+                        if (targetId) setTimeout(() => document.getElementById(targetId)?.scrollIntoView({behavior:'smooth'}), 100);
+                    });
+                } else if (route === 'fortune') {
+                    this.pages.fortune.style.display = 'block';
+                    requestAnimationFrame(() => this.pages.fortune.classList.add('active'));
+                    initFortunePage(); 
+                } else if (route === 'players') {
+                    renderPlayers();
+                    this.pages.players.style.display = 'block';
+                    requestAnimationFrame(() => this.pages.players.classList.add('active'));
+                } else if (route.startsWith('mode-')) {
+                    const modeMap = { 'mode-kv': 'modeKv', 'mode-zaruba': 'modeZaruba', 'mode-proverka': 'modeProverka' };
+                    this.pages[modeMap[route]].style.display = 'block';
+                    requestAnimationFrame(() => this.pages[modeMap[route]].classList.add('active'));
+                }
+            }
+        };
+
+        // === INIT (ГЛАВНЫЙ ЗАПУСК) ===
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. ПОЛУЧАЕМ НОВОСТЬ ИЗ ТЕЛЕГРАМА
+            fetch(SCRIPT_URL + "?action=getNews")
+            .then(r => r.text())
+            .then(text => {
+                // Если новость есть (и не выключена)
+                if (text && text !== "OFF" && text.trim() !== "") {
+                    const heroText = document.getElementById('hero-news-text');
+                    if (heroText) {
+                        heroText.innerHTML = text.replace(/\n/g, "<br>");
+                        
+                        // Делаем текст белым и ярким
+                        heroText.classList.remove('text-gray-300', 'font-light');
+                        heroText.classList.add('text-white', 'font-bold', 'text-lg', 'drop-shadow-md');
+                        
+                        // Меняем плашку "Сообщение от гильдии" -> "🔥 ВАЖНО"
+                        const container = heroText.closest('.plastic-wrap');
+                        if (container) {
+                            const label = container.querySelector('span.text-\\[8px\\]');
+                            if (label) {
+                                label.textContent = "🔥 ВАЖНАЯ ИНФОРМАЦИЯ";
+                                label.classList.remove('text-lp-blue');
+                                label.classList.add('text-lp-red');
+                            }
+                        }
+                    }
                 }
             })
-            .catch(e => console.error("Error loading data:", e));
+            .catch(e => console.log("News Error:", e));
 
-            // АНИМАЦИИ (Оставляем как было)
+            // АНИМАЦИИ
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+
+            buildWheel('decorative-wheel-bg', false);
+            renderCoverflow();
             
-            // МЕНЮ
             const menuBtn = document.getElementById('menu-btn');
             const sideMenu = document.getElementById('side-menu');
             if(menuBtn) menuBtn.addEventListener('click', () => sideMenu.classList.remove('translate-x-full'));
             if(document.getElementById('close-menu-btn')) document.getElementById('close-menu-btn').addEventListener('click', () => sideMenu.classList.add('translate-x-full'));
             
             window.addEventListener('resize', renderCoverflow);
-            
-            // КОПИРОВАНИЕ КАРТЫ
-            const cardBtn = document.getElementById('copy-card-btn');
-            if(cardBtn) cardBtn.addEventListener('click', () => {
-                const num = document.getElementById('card_number') ? document.getElementById('card_number').innerText.replace(/\s/g, '') : '4400430220252026';
-                copyToClipboard(num);
-                alert("Номер карты скопирован!");
+
+            document.getElementById('join-modal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('join-modal')) closeJoinModal();
             });
 
-            // ОБРАБОТКА ФОРМЫ ВСТУПЛЕНИЯ (ДОБАВЛЕНО)
-            const joinForm = document.getElementById('join-form');
-            if(joinForm) {
-                joinForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const name = document.getElementById('name').value;
-                    const age = document.getElementById('age').value;
-                    const phone = document.getElementById('phone').value;
-                    const msg = `Заявка в гильдию Lost Paradise:\nИмя: ${name}\nВозраст: ${age}\nСвязь: ${phone}`;
-                    window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
-                    e.target.reset();
-                    closeJoinModal();
-                });
-            }
+            document.getElementById('join-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const phone = document.getElementById('phone').value;
+                const msg = `Заявка в гильдию Lost Paradise:\nИмя: ${name}\nВозраст: ${age}\nСвязь: ${phone}`;
+                window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
+                e.target.reset();
+                closeJoinModal();
+            });
 
-            // ЛОГИКА КОЛЕСА (НОВАЯ)
+            // 2. КОЛЕСО ФОРТУНЫ (ПРОВЕРКА КОДА ЧЕРЕЗ ТЕЛЕГРАМ)
             const fortuneForm = document.getElementById('fortune-form');
             if (fortuneForm) {
                 fortuneForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    const code = document.getElementById('access-code').value.trim();
-                    const nick = document.getElementById('ff-nick').value.trim();
-                    const pid = document.getElementById('ff-id').value.trim();
+                    const codeInput = document.getElementById('access-code');
                     const btn = document.getElementById('real-spin-btn');
+                    const code = codeInput.value.trim();
 
                     if (!code) { showAlert("Введите код!"); return; }
 
                     btn.disabled = true; 
                     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Проверка...';
 
+                    // ЗАПРОС К ГУГЛ ТАБЛИЦЕ
                     fetch(SCRIPT_URL + "?code=" + encodeURIComponent(code))
                     .then(r => r.text())
                     .then(data => {
                         if (data.trim() === "VALID") {
-                            // КРУТИМ
+                            // КОД ВЕРНЫЙ -> КРУТИМ
                             const wheel = document.getElementById('fortune-wheel');
-                            const rIndex = Math.floor(Math.random() * wheelPrizes.length);
-                            const deg = 360 / wheelPrizes.length;
-                            const stop = (360 * 8) + (90 - ((rIndex * deg) + (deg / 2)));
-                            
-                            wheel.style.transform = `rotate(${stop}deg)`;
-                            
+                            const randomPrizeIndex = Math.floor(Math.random() * wheelPrizes.length);
+                            const segmentAngle = 360 / wheelPrizes.length;
+                            const extraSpins = 360 * (5 + Math.floor(Math.random() * 5)); 
+                            const centerAngleOfPrize = (randomPrizeIndex * segmentAngle) + (segmentAngle / 2);
+                            const stopAngle = extraSpins + (90 - centerAngleOfPrize); 
+
+                            wheel.style.transform = `rotate(${stopAngle}deg)`;
+
                             setTimeout(() => {
-                                const prize = wheelPrizes[rIndex];
+                                const prizeObj = wheelPrizes[randomPrizeIndex];
                                 document.getElementById('fortune-form-container').style.display = 'none';
                                 document.getElementById('fortune-result').classList.remove('hidden');
-                                document.getElementById('prize-display').textContent = prize.label;
-                                document.getElementById('prize-display').style.borderColor = prize.bgColor;
-                                document.getElementById('prize-display').style.color = prize.bgColor;
-                                
-                                const msg = `Привет! Я выиграл: ${prize.label}. Мой Ник: ${nick}, ID: ${pid}`;
-                                const adminPhone = siteSettings.admin_phone || "77473140807";
-                                document.getElementById('whatsapp-btn').href = `https://wa.me/${adminPhone}?text=${encodeURIComponent(msg)}`;
-
-                                // Отправка в ТГ
-                                fetch(SCRIPT_URL + `?action=reportWin&nick=${nick}&id=${pid}&prize=${prize.label}&code=${code}`);
+                                document.getElementById('prize-display').textContent = prizeObj.label;
+                                document.getElementById('prize-display').style.color = prizeObj.bgColor;
+                                document.getElementById('prize-display').style.borderColor = prizeObj.bgColor;
+                                updateWhatsAppLink(prizeObj.label);
                             }, 4000);
 
+                        } else if (data.trim() === "USED") {
+                            showAlert("Этот код уже использовали!");
+                            btn.disabled = false; btn.innerHTML = 'ИСПЫТАТЬ УДАЧУ';
                         } else {
-                            showAlert(data.trim() === "USED" ? "Код уже использован!" : "Неверный код!");
+                            showAlert("Неверный код доступа!");
                             btn.disabled = false; btn.innerHTML = 'ИСПЫТАТЬ УДАЧУ';
                         }
                     })
@@ -1157,177 +1516,9 @@
                 });
             }
         });
-
-        // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
-        function applySettings(s) {
-            const ids = ['kv_rounds','kv_goal','kv_revanche','zaruba_rounds','zaruba_goal','zaruba_revanche','price_check','price_fast','price_invite','price_event','card_number', 'footer_id'];
-            ids.forEach(id => {
-                const el = document.getElementById(id);
-                if(el && s[id]) el.textContent = s[id];
-            });
-            if(s.admin_phone) document.getElementById('link_wa_card').href = `https://wa.me/${s.admin_phone}`;
-            if(s.link_tiktok) document.getElementById('link_tiktok').href = s.link_tiktok;
-            if(s.link_tg) document.getElementById('link_tg').href = s.link_tg;
-        }
-
-        function payCheck(type) {
-            const prices = { check: siteSettings.price_check, fast: siteSettings.price_fast, invite: siteSettings.price_invite, fortune: siteSettings.price_event };
-            const names = { check: "Проверку", fast: "Fast Check", invite: "Invite", fortune: "Колесо Фортуны" };
-            const phone = siteSettings.admin_phone || "77473140807";
-            const msg = `Привет, хочу оплатить ${names[type]} (${prices[type]} тг)`;
-            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        function buildWheel(id, text) {
-            const w = document.getElementById(id);
-            if(!w || wheelPrizes.length === 0) return;
-            w.innerHTML = '';
-            const n = wheelPrizes.length, step = 360/n;
-            let grad = 'conic-gradient(';
-            wheelPrizes.forEach((p,i) => grad += `${p.bgColor} ${i*step}deg ${(i+1)*step}deg${i===n-1?'':','}`);
-            w.style.background = grad + ')';
-            if(text) {
-                wheelPrizes.forEach((p,i) => {
-                    const s = document.createElement('div');
-                    s.className = 'wheel-segment-content';
-                    s.style.transform = `translateY(-50%) rotate(${(i*step)+(step/2)-90}deg)`;
-                    s.style.color = p.color;
-                    s.innerHTML = `<span>${p.text}</span>`;
-                    w.appendChild(s);
-                });
-            }
-        }
         
-        function renderCoverflow() { 
-            const container = document.getElementById('coverflow-list');
-            if(!container) return;
-            container.innerHTML = '';
-            // Берем только первых 8 для карусели
-            const list = elitePlayers.slice(0, 8);
-            if(list.length === 0) return;
-
-            const activeIndex = 3; 
-            list.forEach((player, index) => {
-                const card = document.createElement('div');
-                card.className = 'player-card';
-                const colors = {
-                    gold: { border: '#FFD700', text: 'text-rank-gold', shadow: '0 0 20px rgba(255, 215, 0, 0.4)' },
-                    silver: { border: '#E5E7EB', text: 'text-rank-silver', shadow: '0 0 15px rgba(229, 231, 235, 0.3)' },
-                    bronze: { border: '#CD7F32', text: 'text-rank-bronze', shadow: '0 0 15px rgba(205, 127, 50, 0.3)' },
-                    purple: { border: '#A855F7', text: 'text-rank-purple', shadow: '0 0 15px rgba(168, 85, 247, 0.3)' },
-                    pink: { border: '#FF69B4', text: 'text-rank-pink', shadow: '0 0 15px rgba(255, 105, 180, 0.3)' } 
-                };
-                const style = colors[player.roleType] || colors.bronze;
-                
-                card.innerHTML = `
-                    <div class="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm flex items-center justify-center"></div>
-                    <div class="absolute top-1 right-3 z-10 font-header font-bold text-3xl text-black opacity-90" style="text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff">${index+1}</div>
-                    <img src="${player.img}" class="avatar" alt="${player.nick}">
-                    <div class="absolute bottom-0 w-full px-3 pb-3 pt-8 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
-                        <div class="font-header text-xl md:text-2xl text-white uppercase tracking-wider mb-1 cursor-pointer hover:text-lp-blue transition-colors flex items-center gap-2" onclick="router.navigate('players'); event.stopPropagation()">
-                            ${player.nick}
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="text-[10px] md:text-xs text-gray-300 font-mono" onclick="copyToClipboard('${player.uid}'); event.stopPropagation()">
-                                ${player.uid} <i class="fa-regular fa-copy text-[8px] opacity-50"></i>
-                            </div>
-                            <div class="font-bold uppercase text-[9px] md:text-[10px] ${style.text} tracking-widest border border-current px-1.5 py-0.5 rounded">
-                                ${player.role}
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                const offset = index - activeIndex;
-                const absOffset = Math.abs(offset);
-                const isActive = offset === 0;
-                
-                card.style.borderColor = isActive ? style.border : 'rgba(255,255,255,0.1)';
-                card.style.borderWidth = isActive ? '2px' : '1px';
-                if(isActive) card.style.boxShadow = style.shadow;
-                
-                let transform = '';
-                if (isActive) { transform = `translateX(0) scale(1.1) rotateY(0deg)`; } 
-                else {
-                    const isMobile = window.innerWidth < 768;
-                    const spacing = isMobile ? 120 : 190; 
-                    const rotateAngle = isMobile ? -10 : -20;
-                    const scale = 1 - (absOffset * 0.25);
-                    transform = `translateX(${offset * spacing}px) scale(${scale}) rotateY(${offset * rotateAngle}deg)`;
-                }
-                card.style.transform = transform;
-                card.style.zIndex = 10 - absOffset;
-                card.style.opacity = Math.max(1 - (absOffset * 0.2), 0);
-                
-                container.appendChild(card);
-            });
-        }
-
-        function renderPlayers() {
-             const tbody = document.getElementById('players-list-body');
-             if(!tbody) return;
-             
-             // Очищаем старый статический список
-             tbody.innerHTML = '';
-             
-             let html = '';
-             elitePlayers.forEach((p, i) => {
-                 html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
-                    <td class="p-2 text-gray-500 font-mono text-xs">${i+1}</td>
-                    <td class="p-2 text-white font-header font-bold tracking-wide text-sm md:text-base">${p.nick}</td>
-                    <td class="p-2 text-gray-400 font-mono text-xs flex items-center gap-1 cursor-pointer active:text-green-500" onclick="copyToClipboard('${p.uid}')">
-                        ${p.uid} <i class="fa-regular fa-copy text-[10px]"></i>
-                    </td>
-                    <td class="p-2 uppercase text-xs font-bold text-gray-400">${p.role}</td>
-                </tr>`; 
-             });
-             tbody.innerHTML = html;
-        }
-
-        function copyToClipboard(t){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);}
-        function showAlert(m){document.getElementById('alert-msg').textContent=m;document.getElementById('alert-modal').classList.remove('hidden');}
-        
-        // --- ФУНКЦИИ ДЛЯ МОДАЛКИ ВСТУПЛЕНИЯ ---
-        function closeJoinModal(){
-            const modal = document.getElementById('join-modal');
-            modal.classList.add('opacity-0');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-        }
-        function openJoinModal(){
-            const modal = document.getElementById('join-modal');
-            modal.classList.remove('hidden'); 
-            void modal.offsetWidth; 
-            modal.classList.remove('opacity-0'); 
-        }
-        
-        function toggleAccordion(btn) { btn.parentElement.classList.toggle('accordion-active'); }
         function closeMenu() { document.getElementById('side-menu').classList.add('translate-x-full'); }
-        function submitChallenge(e, type) { e.preventDefault(); window.open(`https://wa.me/${siteSettings.admin_phone || '77473140807'}?text=${encodeURIComponent("Вызов: " + type)}`); }
-        function submitRevanche(e, type) { e.preventDefault(); window.open(`https://wa.me/${siteSettings.admin_phone || '77473140807'}?text=${encodeURIComponent("Реванш: " + type)}`); }
-        function resetFortune() { 
-            localStorage.removeItem('lp_fortune_spun');
-            document.getElementById('fortune-result').classList.add('hidden');
-            document.getElementById('fortune-form-container').style.display = 'block';
-            document.getElementById('fortune-wheel').style.transform = 'rotate(0deg)';
-            document.getElementById('fortune-form').reset();
-            document.getElementById('real-spin-btn').disabled = false;
-            document.getElementById('real-spin-btn').innerHTML = 'ИСПЫТАТЬ УДАЧУ';
-        }
-        
-        // Router Logic
-        const router = {
-            pages: { home: document.getElementById('page-home'), players: document.getElementById('page-players'), fortune: document.getElementById('page-fortune'), modeKv: document.getElementById('page-mode-kv'), modeZaruba: document.getElementById('page-mode-zaruba'), modeProverka: document.getElementById('page-mode-proverka') },
-            navigate(route, targetId = null) {
-                window.scrollTo(0,0);
-                Object.values(this.pages).forEach(p => { if(p) { p.classList.remove('active'); p.style.display = 'none'; } });
-                if (route === 'home') { this.pages.home.style.display = 'block'; requestAnimationFrame(() => { this.pages.home.classList.add('active'); if (targetId) setTimeout(() => document.getElementById(targetId)?.scrollIntoView({behavior:'smooth'}), 100); }); }
-                else if (route === 'fortune') { this.pages.fortune.style.display = 'block'; requestAnimationFrame(() => this.pages.fortune.classList.add('active')); }
-                else if (route === 'players') { 
-                    this.pages.players.style.display = 'block'; requestAnimationFrame(() => this.pages.players.classList.add('active')); 
-                }
-                else if (route.startsWith('mode-')) { const m = { 'mode-kv': 'modeKv', 'mode-zaruba': 'modeZaruba', 'mode-proverka': 'modeProverka' }; this.pages[m[route]].style.display = 'block'; requestAnimationFrame(() => this.pages[m[route]].classList.add('active')); }
-            }
-        };
+        function toggleAccordion(btn) { btn.parentElement.classList.toggle('accordion-active'); }
     </script>
 </body>
 </html>
