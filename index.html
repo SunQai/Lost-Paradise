@@ -1034,13 +1034,17 @@
                       }
                 }
 
-                // В. ИГРОКИ
+                // В. ИГРОКИ (ЕСЛИ ЕСТЬ В ТАБЛИЦЕ - ЗАМЕНЯЕМ ТЕХ ЧТО В HTML)
                 if (data.players && data.players.length > 0) {
                     elitePlayers = data.players.map((p, i) => ({
                         id: i+1, nick: p.nick, uid: p.uid, role: p.role, roleType: p.roleType, img: GENERIC_IMG
                     }));
+                    // Перерисовываем карусель и список
                     renderCoverflow(); 
                     renderPlayers();   
+                } else {
+                    // Если таблица пустая - собираем элиту вручную для карусели (чтобы крутилась)
+                    // (Здесь можно оставить пустой массив, тогда карусель просто не появится пока нет данных)
                 }
 
                 // Г. ПРИЗЫ КОЛЕСА
@@ -1059,7 +1063,7 @@
             })
             .catch(e => console.error("Error loading data:", e));
 
-            // АНИМАЦИИ
+            // АНИМАЦИИ (Оставляем как было)
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
             }, { threshold: 0.1 });
@@ -1081,24 +1085,22 @@
                 alert("Номер карты скопирован!");
             });
 
-            // КЛИК ПО МОДАЛКЕ (ДЛЯ ЗАКРЫТИЯ)
-            document.getElementById('join-modal').addEventListener('click', (e) => {
-                if (e.target === document.getElementById('join-modal')) closeJoinModal();
-            });
+            // ОБРАБОТКА ФОРМЫ ВСТУПЛЕНИЯ (ДОБАВЛЕНО)
+            const joinForm = document.getElementById('join-form');
+            if(joinForm) {
+                joinForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('name').value;
+                    const age = document.getElementById('age').value;
+                    const phone = document.getElementById('phone').value;
+                    const msg = `Заявка в гильдию Lost Paradise:\nИмя: ${name}\nВозраст: ${age}\nСвязь: ${phone}`;
+                    window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
+                    e.target.reset();
+                    closeJoinModal();
+                });
+            }
 
-            // ОБРАБОТКА ФОРМЫ ВСТУПЛЕНИЯ
-            document.getElementById('join-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const name = document.getElementById('name').value;
-                const age = document.getElementById('age').value;
-                const phone = document.getElementById('phone').value;
-                const msg = `Заявка в гильдию Lost Paradise:\nИмя: ${name}\nВозраст: ${age}\nСвязь: ${phone}`;
-                window.open(`https://wa.me/77473140807?text=${encodeURIComponent(msg)}`, '_blank');
-                e.target.reset();
-                closeJoinModal();
-            });
-
-            // ЛОГИКА КОЛЕСА
+            // ЛОГИКА КОЛЕСА (НОВАЯ)
             const fortuneForm = document.getElementById('fortune-form');
             if (fortuneForm) {
                 fortuneForm.addEventListener('submit', function(e) {
@@ -1169,12 +1171,7 @@
         }
 
         function payCheck(type) {
-            const prices = { 
-                check: document.getElementById('price_check') ? document.getElementById('price_check').innerText : '222', 
-                fast: document.getElementById('price_fast') ? document.getElementById('price_fast').innerText : '444', 
-                invite: document.getElementById('price_invite') ? document.getElementById('price_invite').innerText : '999', 
-                fortune: document.getElementById('price_event') ? document.getElementById('price_event').innerText : '333' 
-            };
+            const prices = { check: siteSettings.price_check, fast: siteSettings.price_fast, invite: siteSettings.price_invite, fortune: siteSettings.price_event };
             const names = { check: "Проверку", fast: "Fast Check", invite: "Invite", fortune: "Колесо Фортуны" };
             const phone = siteSettings.admin_phone || "77473140807";
             const msg = `Привет, хочу оплатить ${names[type]} (${prices[type]} тг)`;
@@ -1205,6 +1202,7 @@
             const container = document.getElementById('coverflow-list');
             if(!container) return;
             container.innerHTML = '';
+            // Берем только первых 8 для карусели
             const list = elitePlayers.slice(0, 8);
             if(list.length === 0) return;
 
@@ -1261,7 +1259,6 @@
                 card.style.zIndex = 10 - absOffset;
                 card.style.opacity = Math.max(1 - (absOffset * 0.2), 0);
                 
-                card.onclick = () => { /* activeIndex logic can be expanded */ }; 
                 container.appendChild(card);
             });
         }
@@ -1269,7 +1266,10 @@
         function renderPlayers() {
              const tbody = document.getElementById('players-list-body');
              if(!tbody) return;
+             
+             // Очищаем старый статический список
              tbody.innerHTML = '';
+             
              let html = '';
              elitePlayers.forEach((p, i) => {
                  html += `<tr class="border-b border-white/5 hover:bg-white/5 transition-colors">
@@ -1287,7 +1287,7 @@
         function copyToClipboard(t){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);}
         function showAlert(m){document.getElementById('alert-msg').textContent=m;document.getElementById('alert-modal').classList.remove('hidden');}
         
-        // MODAL FUNCTIONS (GLOBAL)
+        // --- ФУНКЦИИ ДЛЯ МОДАЛКИ ВСТУПЛЕНИЯ ---
         function closeJoinModal(){
             const modal = document.getElementById('join-modal');
             modal.classList.add('opacity-0');
