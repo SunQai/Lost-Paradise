@@ -949,15 +949,18 @@
         // ВСТАВЬ СЮДА СВОЮ ССЫЛКУ ИЗ GOOGLE APPS SCRIPT
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzssOcYTVus8kRP0KiI0FYGETWI-a0zfNMtY59aqpo4SJWj3UJHbxAtlgvSdckJk_Svxw/exec"; 
 
-        const elitePlayers = [
-            { id: 1, nick: "Lost_Yuta", uid: "813296733", role: "Офицер", roleType: "bronze", img: GENERIC_IMG },
-            { id: 2, nick: "Lost_Megumi", uid: "4387660092", role: "Офицер", roleType: "bronze", img: GENERIC_IMG },
-            { id: 3, nick: "Lost_Asuna", uid: "6329993639", role: "Офицерка", roleType: "pink", img: GENERIC_IMG },
-            { id: 4, nick: "Lost_Kirito", uid: "2331613212", role: "Лидер", roleType: "gold", img: GENERIC_IMG },
-            { id: 5, nick: "Lost_Silver", uid: "940020098", role: "Вр.Лидер", roleType: "silver", img: GENERIC_IMG },
-            { id: 6, nick: "Lost_Jerry", uid: "419967696", role: "СНС", roleType: "purple", img: GENERIC_IMG },
-            { id: 7, nick: "Lost_Alucard", uid: "2018848081", role: "УЛТ", roleType: "purple", img: GENERIC_IMG }
-        ];
+  const PLAYER_IMG = "img/FF_Logo.png";
+
+const elitePlayers = [
+    { id: 1, nick: "Lost_Yuta", uid: "813296733", role: "Офицер", roleType: "bronze", img: PLAYER_IMG },
+    { id: 2, nick: "Lost_Megumi", uid: "4387660092", role: "Офицер", roleType: "bronze", img: PLAYER_IMG },
+    { id: 3, nick: "Lost_Asuna", uid: "6329993639", role: "Офицерка", roleType: "pink", img: PLAYER_IMG },
+    { id: 4, nick: "Lost_Kirito", uid: "2331613212", role: "Лидер", roleType: "gold", img: PLAYER_IMG },
+    { id: 5, nick: "Lost_Silver", uid: "940020098", role: "Вр.Лидер", roleType: "silver", img: PLAYER_IMG },
+    { id: 6, nick: "Lost_Jerry", uid: "419967696", role: "СНС", roleType: "purple", img: PLAYER_IMG },
+    { id: 7, nick: "Lost_Alucard", uid: "2018848081", role: "УЛТ", roleType: "purple", img: PLAYER_IMG }
+];
+
 
         // LOGIC: chance - вероятность выпадения (всего 100%)
         // Дорогие призы имеют низкий шанс (1-3%), дешевые/обычные - высокий (15%)
@@ -1425,6 +1428,7 @@
 </body>
 
 </html>
+
 
 
 
